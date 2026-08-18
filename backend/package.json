@@ -1,0 +1,23 @@
+{
+  "name": "automated-insight-generator-backend",
+  "version": "1.0.0",
+  "description": "Backend for Automated Insight Generator",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
