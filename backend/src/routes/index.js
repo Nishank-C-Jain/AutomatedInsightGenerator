@@ -1,5 +1,5 @@
 import express from 'express';
-import authRouter from './auth.js';
+import authRouter from './authRoutes.js';
 import usersRouter from './users.js';
 import datasetsRouter from './datasets.js';
 import analyticsRouter from './analytics.js';

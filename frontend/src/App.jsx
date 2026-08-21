@@ -1,6 +1,183 @@
 import React, { useState } from 'react';
+import { 
+  LayoutDashboard, 
+  Database, 
+  TrendingUp, 
+  MessageSquare, 
+  Settings, 
+  LogOut, 
+  Upload, 
+  AlertTriangle, 
+  Sparkles, 
+  RefreshCw, 
+  Plus
+} from 'lucide-react';
+import { useAuth } from './context/AuthContext.jsx';
 
+// Splash screen shown during auto-refresh check
+function SplashLoading() {
+  return (
+    <div className="auth-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div className="logo-icon" style={{ width: '60px', height: '60px', fontSize: '30px', animation: 'pulse 1.5s infinite' }}>AI</div>
+      <div style={{ color: 'var(--text-secondary)', fontSize: '15px', fontWeight: '500' }}>Initializing secure session...</div>
+      <style>{`
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 25px var(--primary); }
+          100% { transform: scale(1); opacity: 0.8; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// Login Screen component
+function LoginView({ onLogin, onSwitch, error }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="logo-icon" style={{ width: '48px', height: '48px', fontSize: '24px' }}>AI</div>
+          </div>
+          <h1 className="auth-title">Welcome back</h1>
+          <p className="auth-subtitle">Log in to your InsightFlow account</p>
+        </div>
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={(e) => onLogin(e, email, password)}>
+          <div className="form-group">
+            <label className="form-label">Email address</label>
+            <input 
+              type="email" 
+              className="form-input" 
+              required 
+              placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input 
+              type="password" 
+              className="form-input" 
+              required 
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="btn-primary" style={{ width: '100%', padding: '12px', marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+            Sign in
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          Don't have an account?{' '}
+          <span className="auth-link" onClick={onSwitch}>
+            Sign up
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Register Screen component
+function RegisterView({ onRegister, onSwitch, error }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    onRegister(e, {
+      name,
+      email,
+      password
+    });
+  };
+
+  return (
+    <div className="auth-container">
+      <div className="auth-card" style={{ maxWidth: '480px' }}>
+        <div className="auth-header">
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="logo-icon" style={{ width: '48px', height: '48px', fontSize: '24px' }}>AI</div>
+          </div>
+          <h1 className="auth-title">Create account</h1>
+          <p className="auth-subtitle">Get started with InsightFlow</p>
+        </div>
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Name</label>
+            <input 
+              type="text" 
+              className="form-input" 
+              required 
+              placeholder="Nishank"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Email address</label>
+            <input 
+              type="email" 
+              className="form-input" 
+              required 
+              placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input 
+              type="password" 
+              className="form-input" 
+              required 
+              placeholder="•••••••• (min 8 chars)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="btn-primary" style={{ width: '100%', padding: '12px', marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+            Create account
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          Already have an account?{' '}
+          <span className="auth-link" onClick={onSwitch}>
+            Sign in
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main App Dashboard shell
 function App() {
+  // Authentication states consumed from global Context
+  const { user, isAuthenticated, loading, login, register, logout } = useAuth();
+  const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+  const [authError, setAuthError] = useState('');
+
+  // UI tabs state
   const [activeTab, setActiveTab] = useState('dashboard');
   const [dragActive, setDragActive] = useState(false);
   const [chatInput, setChatInput] = useState('');
@@ -9,9 +186,28 @@ function App() {
     { sender: 'user', text: "Can you analyze the sales trends for this quarter?" },
     { sender: 'assistant', text: "Based on sales_q2_2026.csv, there is a clear upward trend in revenue (+14.2% month-over-month), driven primarily by the Enterprise segment. However, we've identified a data quality anomaly on May 14th where sales values dropped to near-zero, which appears to be a logging error." }
   ]);
-
   const [selectedDataset, setSelectedDataset] = useState('sales_q2_2026.csv');
-  
+
+  const handleLogin = async (e, email, password) => {
+    e.preventDefault();
+    setAuthError('');
+    try {
+      await login(email, password);
+    } catch (err) {
+      setAuthError(err.message || 'Login failed. Please check your credentials.');
+    }
+  };
+
+  const handleRegister = async (e, fields) => {
+    e.preventDefault();
+    setAuthError('');
+    try {
+      await register(fields.name, fields.email, fields.password);
+    } catch (err) {
+      setAuthError(err.message || 'Registration failed. Please check your details.');
+    }
+  };
+
   // Drag and drop handlers
   const handleDrag = (e) => {
     e.preventDefault();
@@ -40,7 +236,6 @@ function App() {
     setChatMessages(prev => [...prev, userMsg]);
     setChatInput('');
     
-    // Simulate assistant reply after a brief timeout
     setTimeout(() => {
       setChatMessages(prev => [...prev, {
         sender: 'assistant',
@@ -48,6 +243,27 @@ function App() {
       }]);
     }, 1000);
   };
+
+  // Guard routing checks
+  if (loading) {
+    return <SplashLoading />;
+  }
+
+  if (!isAuthenticated) {
+    return authMode === 'login' ? (
+      <LoginView 
+        onLogin={handleLogin} 
+        onSwitch={() => { setAuthMode('register'); setAuthError(''); }}
+        error={authError} 
+      />
+    ) : (
+      <RegisterView 
+        onRegister={handleRegister} 
+        onSwitch={() => { setAuthMode('login'); setAuthError(''); }} 
+        error={authError}
+      />
+    );
+  }
 
   return (
     <div className="app-container">
@@ -58,57 +274,71 @@ function App() {
           <div className="logo-text">InsightFlow</div>
         </div>
         
-        <nav>
+        <nav style={{ flex: 1 }}>
           <ul className="nav-list">
             <li>
               <button 
                 className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}
                 onClick={() => setActiveTab('dashboard')}
+                style={{ width: '100%', textAlign: 'left' }}
               >
-                <span className="nav-icon">📊</span> Dashboard
+                <LayoutDashboard size={18} style={{ marginRight: '4px' }} /> Dashboard
               </button>
             </li>
             <li>
               <button 
                 className={`nav-item ${activeTab === 'datasets' ? 'active' : ''}`}
                 onClick={() => setActiveTab('datasets')}
+                style={{ width: '100%', textAlign: 'left' }}
               >
-                <span className="nav-icon">📁</span> Datasets
+                <Database size={18} style={{ marginRight: '4px' }} /> Datasets
               </button>
             </li>
             <li>
               <button 
                 className={`nav-item ${activeTab === 'analytics' ? 'active' : ''}`}
                 onClick={() => setActiveTab('analytics')}
+                style={{ width: '100%', textAlign: 'left' }}
               >
-                <span className="nav-icon">📈</span> Advanced Analytics
+                <TrendingUp size={18} style={{ marginRight: '4px' }} /> Advanced Analytics
               </button>
             </li>
             <li>
               <button 
                 className={`nav-item ${activeTab === 'chat' ? 'active' : ''}`}
                 onClick={() => setActiveTab('chat')}
+                style={{ width: '100%', textAlign: 'left' }}
               >
-                <span className="nav-icon">💬</span> Insight Chat
+                <MessageSquare size={18} style={{ marginRight: '4px' }} /> Insight Chat
               </button>
             </li>
             <li>
               <button 
                 className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
                 onClick={() => setActiveTab('settings')}
+                style={{ width: '100%', textAlign: 'left' }}
               >
-                <span className="nav-icon">⚙️</span> Settings
+                <Settings size={18} style={{ marginRight: '4px' }} /> Settings
               </button>
             </li>
           </ul>
         </nav>
         
         <div className="user-profile">
-          <div className="user-avatar">NJ</div>
-          <div className="user-details">
-            <span className="user-name">Nishank Jain</span>
-            <span className="user-role">Administrator</span>
+          <div className="user-avatar" style={{ background: 'linear-gradient(135deg, var(--primary), var(--secondary))', color: 'white', fontWeight: 'bold' }}>
+            {user.name ? user.name.slice(0, 2).toUpperCase() : 'US'}
           </div>
+          <div className="user-details" style={{ flex: 1, minWidth: 0 }}>
+            <span className="user-name" style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: '600' }}>
+              {user.name}
+            </span>
+            <span className="user-role" style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+              Standard User
+            </span>
+          </div>
+          <button className="user-logout-btn" title="Log out" onClick={logout}>
+            <LogOut size={16} />
+          </button>
         </div>
       </aside>
 
@@ -121,11 +351,15 @@ function App() {
             <header className="header">
               <div className="header-title">
                 <h1>Overview Dashboard</h1>
-                <p>Welcome back! Here is a summary of your automated insights, data profiles, and models.</p>
+                <p>Welcome back, {user.name}! Here is a summary of your automated insights, data profiles, and models.</p>
               </div>
               <div className="header-actions">
-                <button className="btn-secondary">⚙️ Refresh</button>
-                <button className="btn-primary" onClick={() => setActiveTab('datasets')}>+ Upload Data</button>
+                <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <RefreshCw size={14} /> Refresh
+                </button>
+                <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setActiveTab('datasets')}>
+                  <Plus size={16} /> Upload Data
+                </button>
               </div>
             </header>
 
@@ -134,7 +368,9 @@ function App() {
               <div className="stat-card">
                 <div className="stat-header">
                   <span className="stat-title">Datasets Ingested</span>
-                  <div className="stat-icon" style={{ background: 'rgba(139, 92, 246, 0.15)', color: '#8b5cf6' }}>📁</div>
+                  <div className="stat-icon" style={{ background: 'rgba(139, 92, 246, 0.15)', color: '#8b5cf6' }}>
+                    <Database size={16} />
+                  </div>
                 </div>
                 <span className="stat-value">3</span>
                 <div className="stat-footer">
@@ -145,7 +381,9 @@ function App() {
               <div className="stat-card">
                 <div className="stat-header">
                   <span className="stat-title">Insights Synthesized</span>
-                  <div className="stat-icon" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899' }}>💡</div>
+                  <div className="stat-icon" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899' }}>
+                    <Sparkles size={16} />
+                  </div>
                 </div>
                 <span className="stat-value">12</span>
                 <div className="stat-footer">
@@ -156,7 +394,9 @@ function App() {
               <div className="stat-card">
                 <div className="stat-header">
                   <span className="stat-title">Flagged Anomalies</span>
-                  <div className="stat-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444' }}>⚠️</div>
+                  <div className="stat-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444' }}>
+                    <AlertTriangle size={16} />
+                  </div>
                 </div>
                 <span className="stat-value">2</span>
                 <div className="stat-footer">
@@ -171,7 +411,7 @@ function App() {
               <div className="dashboard-card">
                 <h2 className="card-title">
                   <span>Revenue Trend Analysis</span>
-                  <span style={{ fontSize: '12px', fontWeight: 'normal', color: 'var(--text-secondary)' }}>sales_q2_2026.csv</span>
+                  <span style={{ fontSize: '12px', fontWeight: 'normal', color: 'var(--text-secondary)' }}>{selectedDataset}</span>
                 </h2>
                 <div className="chart-container">
                   <svg width="100%" height="220" viewBox="0 0 500 220" style={{ overflow: 'visible' }}>
@@ -231,8 +471,9 @@ function App() {
                   </svg>
                   <p style={{ marginTop: '16px', fontSize: '14px', color: 'var(--text-secondary)' }}>Overall Health Score</p>
                 </div>
-                <div style={{ fontSize: '13px', color: 'var(--text-muted)', borderTop: '1px solid var(--border-glass)', paddingTop: '16px' }}>
-                  ⚠️ <strong>Anomaly warning:</strong> IoT sensor log has high missingness rate (18% missing entries).
+                <div style={{ fontSize: '13px', color: 'var(--text-muted)', borderTop: '1px solid var(--border-glass)', paddingTop: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <AlertTriangle size={14} style={{ color: 'var(--warning)', flexShrink: 0 }} /> 
+                  <span><strong>Anomaly warning:</strong> IoT sensor log has high missingness rate (18% missing entries).</span>
                 </div>
               </div>
             </section>
@@ -258,7 +499,9 @@ function App() {
                 onDragLeave={handleDrag}
                 onDrop={handleDrop}
               >
-                <div className="upload-icon">📥</div>
+                <div className="upload-icon" style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Upload size={32} style={{ color: 'var(--primary)' }} />
+                </div>
                 <div className="upload-text">Drag and drop your file here, or click to browse</div>
                 <div className="upload-subtext">Supports CSV, JSON, XLS up to 100MB</div>
               </div>
@@ -428,6 +671,7 @@ function App() {
                   className="chat-input"
                   style={{ width: '100%', maxWidth: '500px' }}
                   defaultValue="http://localhost:5000/api" 
+                  readOnly
                 />
               </div>
 
@@ -438,6 +682,7 @@ function App() {
                   className="chat-input"
                   style={{ width: '100%', maxWidth: '500px' }}
                   defaultValue="http://localhost:8000" 
+                  readOnly
                 />
               </div>
 
@@ -448,6 +693,7 @@ function App() {
                   className="chat-input" 
                   style={{ width: '100%', maxWidth: '200px' }}
                   defaultValue="3.0" 
+                  readOnly
                 />
                 <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Z-Score boundary standard deviation threshold for anomaly flag triggers.</p>
               </div>

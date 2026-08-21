@@ -1,51 +1,46 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
-
-// Load environment variables
-dotenv.config();
+import errorMiddleware from './middleware/errorMiddleware.js';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// Security headers
+app.use(helmet());
+
+// CORS configuration supporting dynamic validation and HttpOnly credential transfers
+app.use(
+  cors({
+    origin: env.FRONTEND_URL,
+    credentials: true
+  })
+);
+
+// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve uploads static folder
+// Cookie parser for reading HttpOnly refresh token cookies
+app.use(cookieParser());
+
+// Serve static upload resources
 app.use('/uploads', express.static('uploads'));
 
-// API Routes
+// Mount API routes
 app.use('/api', apiRouter);
 
-// Basic route
+// Healthcheck Route
 app.get('/', (req, res) => {
-  res.json({ message: 'Automated Insight Generator API is running' });
+  res.json({ 
+    success: true,
+    message: 'Automated Insight Generator API is running.' 
+  });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-// Export app
-import pool from './config/db.js';
-
-async function testDatabaseConnection() {
-  try {
-    const result = await pool.query("SELECT * FROM test_users");
-    console.log(result.rows);
-    console.log("Database connected successfully!");
-  } catch (error) {
-    console.error("Database connection failed:");
-    console.error(error.message);
-  } finally {
-    await pool.end();
-  }
-}
-
-testDatabaseConnection();
+// Centralized error handler (must be registered after all route definitions)
+app.use(errorMiddleware);
 
 export default app;
