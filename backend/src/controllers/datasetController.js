@@ -1,63 +1,108 @@
-import datasetServices from '../services/datasetServices.js';
-import path from 'path';
+import pool from '../config/db';
 
-class DatasetController {
-  /**
-   * Handle Dataset File Upload
-   */
-  async uploadDataset(req, res, next) {
+const uploadDataset = async (req, res) => {
     try {
-      const file = req.file;
-      if (!file) {
-        return res.status(400).json({
-          success: false,
-          message: 'No dataset file provided'
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Please upload a file",
+            });
+        }
+
+        const userId = req.user.id;
+
+        const {
+            originalname,
+            mimetype,
+            size,
+            filename,
+            path,
+        } = req.file;
+
+        const extension =
+            originalname.split(".").pop().toLowerCase();
+
+        const result = await pool.query(
+            `
+      INSERT INTO datasets
+      (
+        user_id,
+        name,
+        original_filename,
+        file_type,
+        file_size,
+        storage_path
+      )
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+      `,
+            [
+                userId,
+                originalname,
+                originalname,
+                extension,
+                size,
+                path,
+            ]
+        );
+
+        return res.status(201).json({
+            success: true,
+            message: "Dataset uploaded successfully",
+            dataset: result.rows[0],
         });
-      }
 
-      // Read dataset name from request body or fallback to original filename (without extension)
-      let name = req.body.name;
-      if (!name) {
-        const ext = path.extname(file.originalname);
-        name = path.basename(file.originalname, ext);
-      }
-
-      // Save dataset and retrieve parsed metadata
-      const dataset = await datasetServices.createDataset({
-        userId: req.user.id,
-        name: name,
-        originalFilename: file.originalname,
-        fileType: path.extname(file.originalname),
-        fileSize: file.size,
-        storagePath: file.path
-      });
-
-      res.status(201).json({
-        success: true,
-        message: 'Dataset uploaded and processed successfully',
-        dataset
-      });
     } catch (error) {
-      next(error);
-    }
-  }
+        console.error("Dataset upload error:", error);
 
-  /**
-   * Get all Datasets for Authenticated User
-   */
-  async getDatasets(req, res, next) {
+        return res.status(500).json({
+            success: false,
+            message: "Failed to upload dataset",
+        });
+    }
+};
+
+//Route: Get Dataset
+const getDatasets = async (req, res) => {
     try {
-      const userId = req.user.id;
-      const datasets = await datasetServices.getDatasetsByUserId(userId);
+        const userId = req.user.id;
 
-      res.status(200).json({
-        success: true,
-        datasets
-      });
+        const result = await pool.query(
+            `
+      SELECT
+        id,
+        name,
+        original_filename,
+        file_type,
+        file_size,
+        row_count,
+        column_count,
+        status,
+        created_at,
+        updated_at
+      FROM datasets
+      WHERE user_id = $1
+      ORDER BY created_at DESC
+      `,
+            [userId]
+        );
+
+        return res.status(200).json({
+            success: true,
+            datasets: result.rows,
+        });
+
     } catch (error) {
-      next(error);
-    }
-  }
-}
+        console.error("Get datasets error:", error);
 
-export default new DatasetController();
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch datasets",
+        });
+    }
+};
+
+module.exports = {
+    uploadDataset,
+    getDatasets,
+};
