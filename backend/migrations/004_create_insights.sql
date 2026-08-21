@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS insights CASCADE;
 
 CREATE TABLE insights (
     id SERIAL PRIMARY KEY,
-    dataset_id INTEGER NOT NULL REFERENCES datasets(id) ON DELETE CASCADE,
+    dataset_id UUID NOT NULL REFERENCES datasets(id) ON DELETE CASCADE,
     user_id UUID REFERENCES users(id) ON DELETE SET NULL,
     title VARCHAR(255) NOT NULL,
     summary TEXT NOT NULL,

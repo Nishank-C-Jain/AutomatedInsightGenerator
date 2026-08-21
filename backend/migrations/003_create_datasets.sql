@@ -1,19 +1,20 @@
--- Migration 003: Create datasets table
+-- Migration 003: Create datasets table with UUID primary key
 
 DROP TABLE IF EXISTS datasets CASCADE;
 
 CREATE TABLE datasets (
-    id SERIAL PRIMARY KEY,
-    user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
-    description TEXT,
-    file_path VARCHAR(500) NOT NULL,
-    file_size BIGINT,
+    original_filename VARCHAR(255) NOT NULL,
+    file_type VARCHAR(20) NOT NULL,
+    file_size BIGINT NOT NULL,
+    storage_path TEXT NOT NULL,
     row_count INTEGER,
     column_count INTEGER,
-    schema_definition JSONB,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    status VARCHAR(30) NOT NULL DEFAULT 'uploaded',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Index on user_id for list/filter queries

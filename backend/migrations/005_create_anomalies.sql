@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS anomalies CASCADE;
 
 CREATE TABLE anomalies (
     id SERIAL PRIMARY KEY,
-    dataset_id INTEGER NOT NULL REFERENCES datasets(id) ON DELETE CASCADE,
+    dataset_id UUID NOT NULL REFERENCES datasets(id) ON DELETE CASCADE,
     user_id UUID REFERENCES users(id) ON DELETE SET NULL,
     column_name VARCHAR(100) NOT NULL,
     anomaly_type VARCHAR(100) NOT NULL, -- e.g., 'outlier', 'missing_value', 'type_mismatch'

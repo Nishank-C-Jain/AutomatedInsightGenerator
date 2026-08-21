@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
 import errorMiddleware from './middleware/errorMiddleware.js';
+import datasetRoutes from ("./routes/datasetRoutes");
 
 const app = express();
 
@@ -34,13 +35,15 @@ app.use('/api', apiRouter);
 
 // Healthcheck Route
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     success: true,
-    message: 'Automated Insight Generator API is running.' 
+    message: 'Automated Insight Generator API is running.'
   });
 });
 
 // Centralized error handler (must be registered after all route definitions)
 app.use(errorMiddleware);
+
+app.use("/api/datasets", datasetRoutes);
 
 export default app;
