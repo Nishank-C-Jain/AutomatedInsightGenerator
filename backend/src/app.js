@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
 import errorMiddleware from './middleware/errorMiddleware.js';
-import datasetRoutes from ("./routes/datasetRoutes");
+import datasetRoutes from './routes/datasets.js';
 
 const app = express();
 

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import pool from '../config/db.js';
+import axios from 'axios';
 
 class DatasetServices {
   /**
@@ -66,7 +67,7 @@ class DatasetServices {
   /**
    * Save dataset metadata to Database
    */
-  async createDataset({ userId, name, originalFilename, fileType, fileSize, storagePath }) {
+  async createDataset({ userId, name, originalFilename, fileType, fileSize, storagePath, status = 'processing' }) {
     // Determine the type: .csv -> csv, .json -> json, etc.
     let normalizedType = fileType.toLowerCase();
     if (normalizedType.startsWith('.')) {
@@ -92,7 +93,7 @@ class DatasetServices {
       storagePath,
       rowCount,
       columnCount,
-      'uploaded'
+      status
     ]);
 
     return result.rows[0];
@@ -110,6 +111,90 @@ class DatasetServices {
     `;
     const result = await pool.query(query, [userId]);
     return result.rows;
+  }
+
+  /**
+   * Process dataset asynchronously by calling Python analytics engine
+   */
+  async processDataset(datasetId, userId, filePath) {
+    try {
+      console.log(`Starting processing for dataset ${datasetId}...`);
+      
+      const pythonApiUrl = process.env.PYTHON_API_URL || 'http://127.0.0.1:8000';
+      const response = await axios.post(`${pythonApiUrl}/api/analyze`, {
+        file_path: filePath
+      });
+
+      const analysisResults = response.data.analysis_results;
+
+      // Begin a transaction to update dataset and insert insights/anomalies
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+        
+        // 1. Update dataset with full analysis_results jsonb and status completed
+        await client.query(
+          `UPDATE datasets SET status = 'completed', analysis_results = $1 WHERE id = $2`,
+          [JSON.stringify(analysisResults), datasetId]
+        );
+
+        // 2. Insert insights
+        if (analysisResults.insights && Array.isArray(analysisResults.insights)) {
+          for (let i = 0; i < analysisResults.insights.length; i++) {
+            const insightText = analysisResults.insights[i];
+            await client.query(
+              `INSERT INTO insights (dataset_id, user_id, title, summary, content, insight_type)
+               VALUES ($1, $2, $3, $4, $5, $6)`,
+              [
+                datasetId,
+                userId,
+                `Insight #${i+1}`,
+                insightText.substring(0, 50) + '...',
+                JSON.stringify({ text: insightText }),
+                'summary'
+              ]
+            );
+          }
+        }
+
+        // 3. Insert anomalies if present
+        if (analysisResults.anomalies && analysisResults.anomalies.anomaly_count > 0) {
+          const anom = analysisResults.anomalies;
+          await client.query(
+            `INSERT INTO anomalies (dataset_id, user_id, column_name, anomaly_count, anomaly_percentage, anomaly_data)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [
+              datasetId,
+              userId,
+              anom.column,
+              anom.anomaly_count,
+              anom.anomaly_percentage,
+              JSON.stringify({
+                detected_indices: anom.detected_indices,
+                detected_values: anom.detected_values
+              })
+            ]
+          );
+        }
+
+        await client.query('COMMIT');
+        console.log(`Processing complete for dataset ${datasetId}`);
+      } catch (dbError) {
+        await client.query('ROLLBACK');
+        throw dbError;
+      } finally {
+        client.release();
+      }
+      
+    } catch (error) {
+      console.error(`Error processing dataset ${datasetId}:`, error.message);
+      
+      // Update status to failed
+      await pool.query(
+        `UPDATE datasets SET status = 'failed' WHERE id = $1`,
+        [datasetId]
+      );
+    }
   }
 }
 

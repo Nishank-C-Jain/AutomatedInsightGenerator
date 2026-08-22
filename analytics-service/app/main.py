@@ -8,6 +8,9 @@ app = FastAPI(
     title="Automated Insights Analytics Engine"
 )
 
+from app.routes.analysis import router as analysis_router
+app.include_router(analysis_router, prefix="/api", tags=["analysis"])
+
 
 class ProfileRequest(BaseModel):
     file_path: str

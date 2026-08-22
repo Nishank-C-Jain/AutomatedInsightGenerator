@@ -1,4 +1,5 @@
-import pool from '../config/db';
+import pool from '../config/db.js';
+import datasetServices from '../services/datasetServices.js';
 
 const uploadDataset = async (req, res) => {
     try {
@@ -13,43 +14,34 @@ const uploadDataset = async (req, res) => {
 
         const {
             originalname,
-            mimetype,
             size,
-            filename,
             path,
         } = req.file;
 
-        const extension =
-            originalname.split(".").pop().toLowerCase();
+        const extension = originalname.split(".").pop().toLowerCase();
 
-        const result = await pool.query(
-            `
-      INSERT INTO datasets
-      (
-        user_id,
-        name,
-        original_filename,
-        file_type,
-        file_size,
-        storage_path
-      )
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-      `,
-            [
-                userId,
-                originalname,
-                originalname,
-                extension,
-                size,
-                path,
-            ]
-        );
+        // 1. Create dataset entry with status = 'processing'
+        const dataset = await datasetServices.createDataset({
+            userId,
+            name: originalname,
+            originalFilename: originalname,
+            fileType: extension,
+            fileSize: size,
+            storagePath: path,
+            status: 'processing'
+        });
 
+        // 2. Trigger asynchronous processing
+        // We do NOT await this so the client gets a quick response
+        datasetServices.processDataset(dataset.id, userId, path).catch(err => {
+            console.error("Error in async processDataset:", err);
+        });
+
+        // 3. Return response immediately
         return res.status(201).json({
             success: true,
-            message: "Dataset uploaded successfully",
-            dataset: result.rows[0],
+            message: "Dataset uploaded successfully and is now processing",
+            dataset: dataset,
         });
 
     } catch (error) {
@@ -102,7 +94,8 @@ const getDatasets = async (req, res) => {
     }
 };
 
-module.exports = {
+
+export default {
     uploadDataset,
     getDatasets,
 };

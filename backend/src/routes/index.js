@@ -8,10 +8,12 @@ import anomaliesRouter from './anomalies.js';
 import recommendationsRouter from './recommendations.js';
 import chatRouter from './chat.js';
 import reportsRouter from './reports.js';
+import dashboardRouter from './dashboard.js';
 
 const router = express.Router();
 
 router.use('/auth', authRouter);
+router.use('/dashboard', dashboardRouter);
 router.use('/users', usersRouter);
 router.use('/datasets', datasetsRouter);
 router.use('/analytics', analyticsRouter);
