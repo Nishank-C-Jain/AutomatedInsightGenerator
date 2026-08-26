@@ -12,11 +12,12 @@ const errorMiddleware = (err, req, res, next) => {
   console.error(`[Error Log] ${req.method} ${req.url}:`, err);
 
   // Handle Zod Validation Errors
-  if (err instanceof ZodError) {
+  if (err && err.name === 'ZodError') {
     // Format validation errors into a clean key-value object (e.g. { email: "Invalid email" })
     const formattedErrors = {};
-    err.errors.forEach(e => {
-      const fieldName = e.path.join('.');
+    const errorsList = err.errors || err.issues || [];
+    errorsList.forEach(e => {
+      const fieldName = e.path ? e.path.join('.') : 'unknown';
       formattedErrors[fieldName] = e.message;
     });
 

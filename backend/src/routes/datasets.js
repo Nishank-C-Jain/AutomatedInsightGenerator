@@ -20,4 +20,11 @@ router.get(
   datasetController.getDatasets
 );
 
+// Get specific dataset by ID (protected route)
+router.get(
+  '/:id',
+  authMiddleware,
+  datasetController.getDatasetById
+);
+
 export default router;

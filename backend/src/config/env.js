@@ -23,7 +23,10 @@ const envSchema = z.object({
   REFRESH_TOKEN_EXPIRES_IN: z.string().default('7d'),
   
   // CORS Origin Configuration
-  FRONTEND_URL: z.string().url().default('http://localhost:5173')
+  FRONTEND_URL: z.string().url().default('http://localhost:5173'),
+
+  // Python Analytics Service
+  PYTHON_API_URL: z.string().url().default('http://127.0.0.1:8000'),
 });
 
 const parsed = envSchema.safeParse(process.env);

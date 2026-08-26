@@ -1,0 +1,481 @@
+Order_ID,Order_Date,Region,Category,Product,Units,Unit_Price,Discount,Revenue,Cost,Profit,Sales_Channel
+ORD0001,2025-01-01,East,Accessories,Mouse,9,92.01,0.05,786.69,650.27,136.42,Online
+ORD0002,2025-01-01,West,Furniture,Desk,2,490.87,0.0,981.74,711.66,270.08,Online
+ORD0003,2025-01-02,North,Electronics,Monitor,3,1007.82,0.05,2872.29,1859.63,1012.66,Retail
+ORD0004,2025-01-03,East,Furniture,Bookshelf,3,288.22,0.2,691.73,499.89,191.84,Online
+ORD0005,2025-01-04,East,Electronics,Keyboard,1,999.31,0.0,999.31,774.44,224.87,Online
+ORD0006,2025-01-04,West,Furniture,Desk,8,157.6,0.1,1134.72,614.36,520.36,Online
+ORD0007,2025-01-05,North,Office Supplies,Notebook,6,70.63,0.15,360.21,231.78,128.43,Online
+ORD0008,2025-01-06,North,Accessories,Webcam,8,470.15,0.05,3573.14,2836.83,736.31,Online
+ORD0009,2025-01-07,East,Electronics,Monitor,9,58.53,0.0,526.77,334.15,192.62,Retail
+ORD0010,2025-01-07,South,Electronics,Keyboard,5,1149.37,0.2,4597.48,3218.95,1378.53,Online
+ORD0011,2025-01-08,East,Accessories,Laptop Stand,3,994.05,0.0,2982.15,2104.56,877.59,Retail
+ORD0012,2025-01-09,East,Electronics,Keyboard,5,963.91,0.2,3855.64,2176.77,1678.87,Online
+ORD0013,2025-01-10,East,Electronics,Laptop,5,761.29,0.1,3425.8,2147.23,1278.57,Partner
+ORD0014,2025-01-10,East,Furniture,Bookshelf,5,271.34,0.15,1153.19,711.61,441.58,Partner
+ORD0015,2025-01-11,West,Electronics,Headphones,3,629.14,0.1,1698.68,864.91,833.77,Partner
+ORD0016,2025-01-12,North,Office Supplies,Printer Paper,10,722.77,0.05,6866.32,3491.3,3375.02,Partner
+ORD0017,2025-01-13,West,Office Supplies,Stapler,4,637.16,0.0,2548.64,2016.21,532.43,Retail
+ORD0018,2025-01-13,West,Accessories,Laptop Stand,9,323.38,0.2,2328.34,1386.7,941.64,Retail
+ORD0019,2025-01-14,West,Electronics,Headphones,10,625.57,0.2,5004.56,3409.74,1594.82,Online
+ORD0020,2025-01-15,East,Accessories,Webcam,9,597.06,0.0,5373.54,3248.59,2124.95,Partner
+ORD0021,2025-01-16,South,Office Supplies,Stapler,2,1195.66,0.0,2391.32,1982.97,408.35,Retail
+ORD0022,2025-01-16,North,Electronics,Headphones,8,1078.46,0.05,8196.3,4842.0,3354.3,Online
+ORD0023,2025-01-17,South,Electronics,Headphones,8,564.11,0.1,4061.59,2641.58,1420.01,Online
+ORD0024,2025-01-18,West,Accessories,Mouse,7,753.18,0.2,4217.81,3397.26,820.55,Retail
+ORD0025,2025-01-19,West,Office Supplies,Stapler,8,901.23,0.05,6849.35,5443.02,1406.33,Partner
+ORD0026,2025-01-19,South,Electronics,Monitor,3,56.32,0.1,152.06,85.93,66.13,Online
+ORD0027,2025-01-20,South,Accessories,Laptop Stand,6,1075.48,0.05,6130.24,4787.26,1342.98,Partner
+ORD0028,2025-01-21,South,Office Supplies,Stapler,1,1034.25,0.2,827.4,546.39,281.01,Partner
+ORD0029,2025-01-22,West,Accessories,Webcam,7,557.06,0.0,3899.42,2608.86,1290.56,Partner
+ORD0030,2025-01-23,West,Furniture,Cabinet,1,478.54,0.0,478.54,261.63,216.91,Online
+ORD0031,2025-01-23,North,Electronics,Monitor,9,338.46,0.1,2741.53,1448.11,1293.42,Partner
+ORD0032,2025-01-24,North,Furniture,Cabinet,1,579.86,0.15,492.88,372.02,120.86,Online
+ORD0033,2025-01-25,West,Office Supplies,Printer Paper,1,67.59,0.1,60.83,40.98,19.85,Partner
+ORD0034,2025-01-26,South,Furniture,Cabinet,7,1024.85,0.15,6097.86,3981.28,2116.58,Online
+ORD0035,2025-01-26,South,Furniture,Cabinet,2,56.98,0.05,108.26,81.77,26.49,Partner
+ORD0036,2025-01-27,North,Office Supplies,Notebook,5,404.93,0.05,1923.42,1477.05,446.37,Retail
+ORD0037,2025-01-28,West,Accessories,Mouse,8,1118.93,0.2,7161.15,3978.86,3182.29,Partner
+ORD0038,2025-01-29,North,Furniture,Cabinet,8,886.23,0.15,6026.36,4300.28,1726.08,Partner
+ORD0039,2025-01-29,North,Accessories,Laptop Stand,3,348.45,0.2,836.28,457.76,378.52,Online
+ORD0040,2025-01-30,East,Furniture,Bookshelf,7,314.39,0.0,2200.73,1679.12,521.61,Online
+ORD0041,2025-01-31,East,Accessories,Webcam,3,21.02,0.15,53.6,39.12,14.48,Partner
+ORD0042,2025-02-01,East,Office Supplies,Pen Set,6,839.42,0.1,4532.87,3784.11,748.76,Retail
+ORD0043,2025-02-01,South,Furniture,Desk,6,72.81,0.0,436.86,228.97,207.89,Retail
+ORD0044,2025-02-02,West,Office Supplies,Notebook,3,646.13,0.0,1938.39,1007.9,930.49,Online
+ORD0045,2025-02-03,West,Furniture,Desk,7,1155.11,0.1,7277.19,4357.33,2919.86,Retail
+ORD0046,2025-02-04,West,Office Supplies,Notebook,3,144.72,0.0,434.16,256.85,177.31,Partner
+ORD0047,2025-02-04,West,Office Supplies,Stapler,8,1074.96,0.15,7309.73,4286.74,3022.99,Online
+ORD0048,2025-02-05,East,Furniture,Desk,10,1189.9,0.2,9519.2,7778.99,1740.21,Partner
+ORD0049,2025-02-06,South,Furniture,Cabinet,4,87.9,0.0,351.6,206.51,145.09,Online
+ORD0050,2025-02-07,South,Furniture,Cabinet,1,1061.24,0.15,902.05,536.88,365.17,Online
+ORD0051,2025-02-07,East,Electronics,Laptop,4,626.55,0.05,2380.89,1823.26,557.63,Online
+ORD0052,2025-02-08,South,Accessories,Mouse,7,1089.22,0.15,6480.86,4260.58,2220.28,Online
+ORD0053,2025-02-09,East,Electronics,Monitor,4,692.01,0.2,2214.43,1709.2,505.23,Retail
+ORD0054,2025-02-10,West,Electronics,Keyboard,6,799.6,0.15,4077.96,2132.28,1945.68,Partner
+ORD0055,2025-02-11,East,Office Supplies,Notebook,9,659.38,0.1,5340.98,3581.93,1759.05,Partner
+ORD0056,2025-02-11,West,Furniture,Chair,1,1039.42,0.2,831.54,425.55,405.99,Partner
+ORD0057,2025-02-12,West,Accessories,Webcam,5,884.68,0.05,4202.23,2193.26,2008.97,Online
+ORD0058,2025-02-13,North,Office Supplies,Pen Set,7,632.69,0.1,3985.95,3257.53,728.42,Retail
+ORD0059,2025-02-14,East,Electronics,Headphones,1,1043.77,0.15,887.2,486.84,400.36,Partner
+ORD0060,2025-02-14,North,Furniture,Desk,4,305.66,0.2,978.11,671.32,306.79,Retail
+ORD0061,2025-02-15,East,Office Supplies,Pen Set,6,201.45,0.05,1148.26,739.35,408.91,Online
+ORD0062,2025-02-16,East,Furniture,Desk,2,205.07,0.1,369.13,229.44,139.69,Partner
+ORD0063,2025-02-17,North,Office Supplies,Printer Paper,10,410.8,0.05,3902.6,3180.39,722.21,Retail
+ORD0064,2025-02-17,North,Furniture,Chair,5,297.85,0.15,1265.86,642.6,623.26,Online
+ORD0065,2025-02-18,East,Electronics,Headphones,10,1117.16,0.05,10613.02,7772.19,2840.83,Retail
+ORD0066,2025-02-19,South,Accessories,Webcam,1,140.41,0.0,140.41,117.55,22.86,Partner
+ORD0067,2025-02-20,West,Electronics,Monitor,6,843.3,0.1,4553.82,3169.73,1384.09,Partner
+ORD0068,2025-02-20,North,Accessories,USB Hub,6,239.23,0.05,1363.61,1128.92,234.69,Online
+ORD0069,2025-02-21,West,Furniture,Desk,4,1059.74,0.15,3603.12,1867.46,1735.66,Online
+ORD0070,2025-02-22,South,Office Supplies,Notebook,8,1154.16,0.15,7848.29,5074.53,2773.76,Online
+ORD0071,2025-02-23,South,Electronics,Keyboard,4,566.58,0.05,2153.0,1272.54,880.46,Retail
+ORD0072,2025-02-23,South,Accessories,Laptop Stand,8,1056.7,0.15,7185.56,5430.76,1754.8,Retail
+ORD0073,2025-02-24,North,Electronics,Laptop,8,21.1,0.2,135.04,113.9,21.14,Retail
+ORD0074,2025-02-25,South,Accessories,Webcam,5,986.64,0.2,3946.56,2327.62,1618.94,Online
+ORD0075,2025-02-26,North,Electronics,Laptop,4,285.92,0.2,914.94,666.96,247.98,Partner
+ORD0076,2025-02-26,South,Accessories,Webcam,2,1091.81,0.0,2183.62,1243.21,940.41,Partner
+ORD0077,2025-02-27,West,Accessories,Laptop Stand,3,16.33,0.05,46.54,32.48,14.06,Retail
+ORD0078,2025-02-28,West,Furniture,Bookshelf,3,674.08,0.0,2022.24,1339.48,682.76,Retail
+ORD0079,2025-03-01,East,Accessories,Mouse,4,911.61,0.15,3099.47,2604.18,495.29,Partner
+ORD0080,2025-03-02,West,Furniture,Bookshelf,4,321.55,0.0,1286.2,917.04,369.16,Partner
+ORD0081,2025-03-02,East,Accessories,Mouse,10,243.86,0.15,2072.81,1289.97,782.84,Retail
+ORD0082,2025-03-03,West,Office Supplies,Printer Paper,5,114.66,0.15,487.3,263.11,224.19,Retail
+ORD0083,2025-03-04,North,Office Supplies,Pen Set,4,401.82,0.1,1446.55,799.85,646.7,Partner
+ORD0084,2025-03-05,West,Office Supplies,Notebook,10,678.42,0.2,5427.36,3141.69,2285.67,Online
+ORD0085,2025-03-05,East,Accessories,Webcam,8,152.27,0.15,1035.44,608.67,426.77,Retail
+ORD0086,2025-03-06,East,Furniture,Bookshelf,6,461.38,0.1,2491.45,1987.47,503.98,Partner
+ORD0087,2025-03-07,South,Furniture,Bookshelf,6,25.75,0.2,123.6,86.08,37.52,Partner
+ORD0088,2025-03-08,North,Accessories,Mouse,8,985.14,0.15,6698.95,4576.63,2122.32,Partner
+ORD0089,2025-03-08,West,Office Supplies,Notebook,7,167.21,0.15,994.9,537.41,457.49,Partner
+ORD0090,2025-03-09,South,Office Supplies,Notebook,10,350.76,0.0,3507.6,2809.76,697.84,Online
+ORD0091,2025-03-10,West,Furniture,Chair,10,36.84,0.0,368.4,277.4,91.0,Partner
+ORD0092,2025-03-11,West,Office Supplies,Notebook,8,527.21,0.2,3374.14,1766.98,1607.16,Retail
+ORD0093,2025-03-11,South,Electronics,Keyboard,2,1010.54,0.15,1717.92,1284.56,433.36,Online
+ORD0094,2025-03-12,South,Furniture,Bookshelf,9,479.7,0.05,4101.44,2830.97,1270.47,Partner
+ORD0095,2025-03-13,South,Office Supplies,Notebook,1,227.7,0.0,227.7,120.36,107.34,Online
+ORD0096,2025-03-14,South,Furniture,Desk,8,908.13,0.2,5812.03,3838.29,1973.74,Retail
+ORD0097,2025-03-14,South,Electronics,Headphones,4,949.74,0.15,3229.12,2162.36,1066.76,Partner
+ORD0098,2025-03-15,West,Furniture,Bookshelf,4,220.9,0.15,751.06,419.11,331.95,Retail
+ORD0099,2025-03-16,South,Furniture,Chair,5,928.46,0.05,4410.19,3664.84,745.35,Partner
+ORD0100,2025-03-17,North,Furniture,Cabinet,8,1137.55,0.2,7280.32,5805.99,1474.33,Partner
+ORD0101,2025-03-17,East,Furniture,Desk,5,212.16,0.15,901.68,661.98,239.7,Partner
+ORD0102,2025-03-18,South,Electronics,Laptop,8,928.62,0.0,7428.96,4916.51,2512.45,Partner
+ORD0103,2025-03-19,South,Accessories,USB Hub,10,854.66,0.05,8119.27,5229.77,2889.5,Partner
+ORD0104,2025-03-20,West,Furniture,Desk,1,576.19,0.2,460.95,335.5,125.45,Online
+ORD0105,2025-03-21,South,Furniture,Chair,10,83.64,0.05,794.58,548.98,245.6,Partner
+ORD0106,2025-03-21,South,Office Supplies,Pen Set,9,103.51,0.0,931.59,486.1,445.49,Partner
+ORD0107,2025-03-22,South,Furniture,Desk,6,1025.11,0.2,4920.53,3342.89,1577.64,Online
+ORD0108,2025-03-23,West,Office Supplies,Pen Set,3,1188.33,0.05,3386.74,2649.25,737.49,Online
+ORD0109,2025-03-24,South,Accessories,Mouse,8,816.12,0.1,5876.06,3882.51,1993.55,Online
+ORD0110,2025-03-24,East,Electronics,Laptop,9,543.46,0.0,4891.14,2534.51,2356.63,Online
+ORD0111,2025-03-25,West,Electronics,Laptop,6,782.37,0.0,4694.22,3638.95,1055.27,Online
+ORD0112,2025-03-26,East,Accessories,Webcam,7,719.36,0.0,5035.52,2872.65,2162.87,Online
+ORD0113,2025-03-27,West,Electronics,Monitor,1,469.58,0.1,422.62,249.56,173.06,Partner
+ORD0114,2025-03-27,South,Accessories,USB Hub,5,92.77,0.1,417.46,232.8,184.66,Partner
+ORD0115,2025-03-28,East,Accessories,Mouse,5,988.49,0.15,4201.08,2586.08,1615.0,Retail
+ORD0116,2025-03-29,West,Accessories,Mouse,10,455.62,0.05,4328.39,3310.63,1017.76,Partner
+ORD0117,2025-03-30,North,Electronics,Monitor,4,985.26,0.15,3349.88,2283.9,1065.98,Partner
+ORD0118,2025-03-30,South,Office Supplies,Notebook,6,314.22,0.05,1791.05,1023.96,767.09,Online
+ORD0119,2025-03-31,West,Accessories,Webcam,7,16.22,0.1,102.19,82.49,19.7,Online
+ORD0120,2025-04-01,North,Furniture,Desk,9,203.34,0.1,1647.05,1330.58,316.47,Partner
+ORD0121,2025-04-02,West,Electronics,Keyboard,1,570.22,0.15,484.69,390.03,94.66,Retail
+ORD0122,2025-04-02,North,Accessories,Mouse,6,1134.0,0.2,5443.2,3176.54,2266.66,Online
+ORD0123,2025-04-03,South,Accessories,Mouse,7,136.1,0.15,809.8,532.79,277.01,Partner
+ORD0124,2025-04-04,East,Furniture,Cabinet,3,1027.24,0.05,2927.63,2473.1,454.53,Partner
+ORD0125,2025-04-05,North,Office Supplies,Printer Paper,8,639.52,0.15,4348.74,3349.42,999.32,Retail
+ORD0126,2025-04-05,West,Office Supplies,Notebook,5,993.72,0.0,4968.6,2531.54,2437.06,Retail
+ORD0127,2025-04-06,South,Office Supplies,Notebook,9,368.57,0.05,3151.27,1647.55,1503.72,Online
+ORD0128,2025-04-07,North,Accessories,Laptop Stand,5,1010.34,0.05,4799.12,3178.82,1620.3,Retail
+ORD0129,2025-04-08,West,Accessories,Laptop Stand,9,930.79,0.2,6701.69,5483.5,1218.19,Partner
+ORD0130,2025-04-09,West,Accessories,Webcam,10,287.61,0.1,2588.49,1782.29,806.2,Partner
+ORD0131,2025-04-09,West,Electronics,Headphones,4,170.63,0.05,648.39,437.17,211.22,Retail
+ORD0132,2025-04-10,North,Furniture,Bookshelf,9,1043.64,0.1,8453.48,4538.81,3914.67,Retail
+ORD0133,2025-04-11,North,Accessories,Laptop Stand,5,1156.44,0.15,4914.87,3587.23,1327.64,Retail
+ORD0134,2025-04-12,North,Furniture,Bookshelf,10,52.09,0.0,520.9,410.33,110.57,Retail
+ORD0135,2025-04-12,East,Furniture,Chair,9,881.56,0.2,6347.23,4018.73,2328.5,Online
+ORD0136,2025-04-13,North,Office Supplies,Printer Paper,3,1092.79,0.1,2950.53,2276.23,674.3,Retail
+ORD0137,2025-04-14,North,Electronics,Monitor,4,1030.97,0.05,3917.69,3281.33,636.36,Online
+ORD0138,2025-04-15,North,Accessories,Webcam,9,1157.96,0.1,9379.48,5358.67,4020.81,Partner
+ORD0139,2025-04-15,East,Office Supplies,Printer Paper,10,915.71,0.05,8699.25,5943.03,2756.22,Retail
+ORD0140,2025-04-16,North,Office Supplies,Pen Set,6,539.12,0.1,2911.25,1748.2,1163.05,Online
+ORD0141,2025-04-17,West,Accessories,USB Hub,2,384.66,0.05,730.85,568.24,162.61,Retail
+ORD0142,2025-04-18,North,Furniture,Chair,7,395.08,0.15,2350.73,1650.58,700.15,Partner
+ORD0143,2025-04-18,West,Office Supplies,Stapler,2,873.44,0.05,1659.54,1198.36,461.18,Partner
+ORD0144,2025-04-19,West,Furniture,Desk,2,898.82,0.05,1707.76,1330.81,376.95,Partner
+ORD0145,2025-04-20,West,Electronics,Monitor,1,252.43,0.0,252.43,161.2,91.23,Retail
+ORD0146,2025-04-21,East,Furniture,Cabinet,3,1043.73,0.05,2974.63,2440.03,534.6,Retail
+ORD0147,2025-04-21,East,Electronics,Laptop,6,862.18,0.0,5173.08,3551.63,1621.45,Online
+ORD0148,2025-04-22,East,Furniture,Chair,8,681.86,0.2,4363.9,2423.2,1940.7,Partner
+ORD0149,2025-04-23,North,Office Supplies,Printer Paper,9,573.77,0.0,5163.93,3839.72,1324.21,Retail
+ORD0150,2025-04-24,West,Office Supplies,Pen Set,7,658.73,0.15,3919.44,3047.92,871.52,Partner
+ORD0151,2025-04-24,East,Electronics,Laptop,4,203.71,0.0,814.84,497.76,317.08,Partner
+ORD0152,2025-04-25,East,Accessories,Mouse,6,256.39,0.2,1230.67,984.55,246.12,Online
+ORD0153,2025-04-26,North,Electronics,Headphones,5,123.03,0.15,522.88,427.27,95.61,Online
+ORD0154,2025-04-27,East,Electronics,Keyboard,8,197.08,0.1,1418.98,847.01,571.97,Online
+ORD0155,2025-04-28,North,Furniture,Bookshelf,1,552.63,0.1,497.37,419.9,77.47,Online
+ORD0156,2025-04-28,South,Furniture,Bookshelf,1,643.47,0.0,643.47,353.43,290.04,Partner
+ORD0157,2025-04-29,East,Electronics,Keyboard,6,36.17,0.0,217.02,123.85,93.17,Online
+ORD0158,2025-04-30,South,Office Supplies,Notebook,10,959.21,0.2,7673.68,4331.63,3342.05,Online
+ORD0159,2025-05-01,North,Furniture,Desk,2,363.59,0.2,581.74,472.89,108.85,Online
+ORD0160,2025-05-01,West,Accessories,Webcam,5,1095.53,0.05,5203.77,3793.56,1410.21,Online
+ORD0161,2025-05-02,East,Furniture,Chair,1,1161.5,0.2,929.2,514.07,415.13,Partner
+ORD0162,2025-05-03,North,Furniture,Bookshelf,7,234.77,0.05,1561.22,1021.21,540.01,Online
+ORD0163,2025-05-04,West,Accessories,USB Hub,1,562.59,0.15,478.2,342.08,136.12,Partner
+ORD0164,2025-05-04,West,Electronics,Keyboard,4,16.46,0.0,65.84,34.84,31.0,Retail
+ORD0165,2025-05-05,South,Accessories,Webcam,9,724.02,0.15,5538.75,4479.99,1058.76,Partner
+ORD0166,2025-05-06,North,Electronics,Headphones,1,734.66,0.2,587.73,459.17,128.56,Partner
+ORD0167,2025-05-07,West,Electronics,Headphones,4,308.33,0.15,1048.32,709.53,338.79,Online
+ORD0168,2025-05-07,East,Electronics,Monitor,6,676.72,0.15,3451.27,2893.87,557.4,Retail
+ORD0169,2025-05-08,East,Accessories,Webcam,6,282.27,0.15,1439.58,930.28,509.3,Retail
+ORD0170,2025-05-09,South,Electronics,Monitor,8,205.58,0.2,1315.71,1111.04,204.67,Retail
+ORD0171,2025-05-10,West,Office Supplies,Printer Paper,1,787.05,0.15,668.99,490.89,178.1,Retail
+ORD0172,2025-05-10,North,Accessories,Webcam,7,401.22,0.05,2668.11,1926.74,741.37,Partner
+ORD0173,2025-05-11,East,Office Supplies,Printer Paper,1,714.46,0.2,571.57,318.98,252.59,Retail
+ORD0174,2025-05-12,West,Electronics,Keyboard,7,528.4,0.15,3143.98,2542.46,601.52,Partner
+ORD0175,2025-05-13,West,Furniture,Bookshelf,3,1181.46,0.2,2835.5,1842.0,993.5,Partner
+ORD0176,2025-05-13,South,Electronics,Keyboard,8,192.25,0.1,1384.2,770.7,613.5,Partner
+ORD0177,2025-05-14,East,Office Supplies,Pen Set,3,565.55,0.05,1611.82,813.02,798.8,Retail
+ORD0178,2025-05-15,East,Office Supplies,Printer Paper,1,821.34,0.15,698.14,485.85,212.29,Online
+ORD0179,2025-05-16,North,Accessories,Laptop Stand,8,483.72,0.1,3482.78,2384.28,1098.5,Online
+ORD0180,2025-05-17,East,Furniture,Desk,3,1170.02,0.1,3159.05,2374.89,784.16,Retail
+ORD0181,2025-05-17,North,Accessories,Webcam,2,870.44,0.2,1392.7,1130.3,262.4,Online
+ORD0182,2025-05-18,East,Office Supplies,Notebook,1,793.53,0.1,714.18,376.94,337.24,Online
+ORD0183,2025-05-19,South,Electronics,Headphones,3,912.12,0.05,2599.54,1965.31,634.23,Partner
+ORD0184,2025-05-20,East,Furniture,Bookshelf,2,1143.89,0.05,2173.39,1229.26,944.13,Partner
+ORD0185,2025-05-20,North,Electronics,Headphones,2,1090.77,0.0,2181.54,1746.02,435.52,Retail
+ORD0186,2025-05-21,North,Electronics,Monitor,6,873.28,0.05,4977.7,3915.82,1061.88,Retail
+ORD0187,2025-05-22,South,Furniture,Bookshelf,1,902.76,0.1,812.48,560.02,252.46,Online
+ORD0188,2025-05-23,East,Accessories,Webcam,2,187.92,0.05,357.05,267.28,89.77,Partner
+ORD0189,2025-05-23,East,Electronics,Keyboard,6,136.81,0.2,656.69,400.6,256.09,Retail
+ORD0190,2025-05-24,South,Office Supplies,Notebook,3,691.52,0.0,2074.56,1379.39,695.17,Retail
+ORD0191,2025-05-25,East,Electronics,Laptop,4,36.77,0.1,132.37,104.25,28.12,Retail
+ORD0192,2025-05-26,East,Furniture,Desk,1,586.59,0.0,586.59,387.59,199.0,Retail
+ORD0193,2025-05-26,North,Furniture,Cabinet,8,264.26,0.1,1902.67,1189.61,713.06,Retail
+ORD0194,2025-05-27,East,Furniture,Chair,7,425.03,0.2,2380.17,1601.79,778.38,Retail
+ORD0195,2025-05-28,East,Accessories,Laptop Stand,7,934.33,0.0,6540.31,5166.11,1374.2,Online
+ORD0196,2025-05-29,South,Electronics,Laptop,3,1130.37,0.15,2882.44,1779.4,1103.04,Partner
+ORD0197,2025-05-29,South,Accessories,Webcam,10,100.81,0.1,907.29,508.82,398.47,Partner
+ORD0198,2025-05-30,West,Accessories,Mouse,10,648.08,0.15,5508.68,4127.13,1381.55,Retail
+ORD0199,2025-05-31,North,Furniture,Cabinet,3,1060.8,0.0,3182.4,2511.21,671.19,Partner
+ORD0200,2025-06-01,East,Furniture,Cabinet,2,112.77,0.15,191.71,102.61,89.1,Partner
+ORD0201,2025-06-01,East,Accessories,Laptop Stand,1,992.05,0.15,843.24,492.42,350.82,Partner
+ORD0202,2025-06-02,West,Electronics,Laptop,7,438.99,0.0,3072.93,1689.16,1383.77,Retail
+ORD0203,2025-06-03,East,Office Supplies,Printer Paper,7,396.68,0.2,2221.41,1381.23,840.18,Retail
+ORD0204,2025-06-04,North,Accessories,Webcam,2,1173.3,0.15,1994.61,1311.7,682.91,Partner
+ORD0205,2025-06-05,West,Electronics,Laptop,7,253.02,0.15,1505.47,1147.3,358.17,Partner
+ORD0206,2025-06-05,North,Furniture,Chair,8,836.43,0.2,5353.15,3896.57,1456.58,Retail
+ORD0207,2025-06-06,West,Furniture,Desk,1,988.41,0.15,840.15,602.66,237.49,Online
+ORD0208,2025-06-07,West,Electronics,Monitor,9,63.8,0.15,488.07,304.23,183.84,Partner
+ORD0209,2025-06-08,South,Office Supplies,Pen Set,7,809.41,0.15,4815.99,3826.34,989.65,Online
+ORD0210,2025-06-08,North,Furniture,Bookshelf,3,1142.59,0.05,3256.38,2165.33,1091.05,Partner
+ORD0211,2025-06-09,East,Furniture,Cabinet,8,162.2,0.2,1038.08,874.78,163.3,Online
+ORD0212,2025-06-10,East,Furniture,Bookshelf,7,1077.02,0.15,6408.27,4626.45,1781.82,Online
+ORD0213,2025-06-11,North,Electronics,Keyboard,8,719.81,0.2,4606.78,2506.98,2099.8,Online
+ORD0214,2025-06-11,East,Accessories,USB Hub,6,745.68,0.1,4026.67,2966.3,1060.37,Retail
+ORD0215,2025-06-12,East,Furniture,Desk,9,741.34,0.1,6004.85,3685.7,2319.15,Online
+ORD0216,2025-06-13,North,Accessories,USB Hub,5,369.12,0.15,1568.76,1161.22,407.54,Online
+ORD0217,2025-06-14,West,Office Supplies,Pen Set,3,1123.21,0.2,2695.7,1413.56,1282.14,Online
+ORD0218,2025-06-14,North,Furniture,Cabinet,3,1137.61,0.2,2730.26,1532.25,1198.01,Partner
+ORD0219,2025-06-15,West,Furniture,Bookshelf,1,755.99,0.2,604.79,483.53,121.26,Online
+ORD0220,2025-06-16,East,Office Supplies,Pen Set,8,943.36,0.05,7169.54,4154.84,3014.7,Partner
+ORD0221,2025-06-17,East,Furniture,Chair,2,740.53,0.1,1332.95,1056.98,275.97,Online
+ORD0222,2025-06-17,East,Accessories,Laptop Stand,3,589.01,0.2,1413.62,844.99,568.63,Online
+ORD0223,2025-06-18,South,Electronics,Headphones,8,798.07,0.2,5107.65,3703.09,1404.56,Retail
+ORD0224,2025-06-19,West,Accessories,Laptop Stand,8,670.31,0.05,5094.36,3784.87,1309.49,Partner
+ORD0225,2025-06-20,South,Electronics,Headphones,4,723.01,0.05,2747.44,1866.69,880.75,Online
+ORD0226,2025-06-20,South,Electronics,Headphones,4,943.84,0.2,3020.29,1832.89,1187.4,Partner
+ORD0227,2025-06-21,North,Accessories,Laptop Stand,5,584.87,0.0,2924.35,1679.82,1244.53,Partner
+ORD0228,2025-06-22,South,Accessories,Mouse,6,63.29,0.2,303.79,155.42,148.37,Retail
+ORD0229,2025-06-23,North,Accessories,USB Hub,5,209.34,0.2,837.36,507.76,329.6,Retail
+ORD0230,2025-06-24,North,Accessories,Laptop Stand,7,534.75,0.05,3556.09,2590.99,965.1,Retail
+ORD0231,2025-06-24,South,Office Supplies,Pen Set,2,873.92,0.05,1660.45,1375.53,284.92,Retail
+ORD0232,2025-06-25,West,Furniture,Bookshelf,7,718.04,0.2,4021.02,3236.61,784.41,Retail
+ORD0233,2025-06-26,West,Electronics,Laptop,10,785.6,0.2,6284.8,4827.5,1457.3,Retail
+ORD0234,2025-06-27,West,Accessories,Laptop Stand,7,582.95,0.2,3264.52,2533.13,731.39,Retail
+ORD0235,2025-06-27,West,Accessories,Webcam,1,744.65,0.05,707.42,518.36,189.06,Retail
+ORD0236,2025-06-28,West,Accessories,Mouse,7,404.89,0.2,2267.38,1340.25,927.13,Online
+ORD0237,2025-06-29,South,Office Supplies,Printer Paper,5,572.17,0.2,2288.68,1871.04,417.64,Partner
+ORD0238,2025-06-30,South,Accessories,USB Hub,3,896.97,0.15,2287.27,1680.59,606.68,Retail
+ORD0239,2025-06-30,East,Accessories,USB Hub,3,1048.12,0.0,3144.36,2188.96,955.4,Retail
+ORD0240,2025-07-01,West,Accessories,Mouse,4,528.88,0.1,1903.97,1025.95,878.02,Partner
+ORD0241,2025-07-02,South,Furniture,Desk,2,66.74,0.0,133.48,87.63,45.85,Online
+ORD0242,2025-07-03,East,Office Supplies,Printer Paper,2,206.58,0.15,351.19,232.18,119.01,Partner
+ORD0243,2025-07-03,West,Accessories,Laptop Stand,1,39.72,0.1,35.75,28.69,7.06,Partner
+ORD0244,2025-07-04,North,Electronics,Monitor,5,789.12,0.2,3156.48,2182.16,974.32,Retail
+ORD0245,2025-07-05,East,Electronics,Laptop,4,408.79,0.15,1389.89,880.0,509.89,Partner
+ORD0246,2025-07-06,South,Electronics,Monitor,10,657.84,0.2,5262.72,4430.58,832.14,Partner
+ORD0247,2025-07-06,North,Office Supplies,Notebook,2,599.53,0.05,1139.11,613.7,525.41,Retail
+ORD0248,2025-07-07,North,Office Supplies,Printer Paper,3,111.61,0.15,284.61,184.4,100.21,Retail
+ORD0249,2025-07-08,North,Electronics,Laptop,7,492.86,0.05,3277.52,1686.97,1590.55,Retail
+ORD0250,2025-07-09,East,Accessories,Mouse,7,276.36,0.15,1644.34,1248.0,396.34,Retail
+ORD0251,2025-07-09,South,Office Supplies,Notebook,4,510.8,0.15,1736.72,1426.41,310.31,Partner
+ORD0252,2025-07-10,North,Electronics,Headphones,5,256.24,0.05,1217.14,727.87,489.27,Partner
+ORD0253,2025-07-11,West,Electronics,Monitor,5,1010.94,0.1,4549.23,3641.29,907.94,Online
+ORD0254,2025-07-12,North,Accessories,Webcam,6,221.42,0.0,1328.52,800.14,528.38,Online
+ORD0255,2025-07-13,North,Furniture,Chair,9,1153.52,0.2,8305.34,6800.16,1505.18,Partner
+ORD0256,2025-07-13,East,Office Supplies,Notebook,2,507.85,0.15,863.34,659.49,203.85,Online
+ORD0257,2025-07-14,East,Accessories,Webcam,5,1017.8,0.2,4071.2,3182.53,888.67,Partner
+ORD0258,2025-07-15,South,Electronics,Monitor,3,760.09,0.05,2166.26,1096.78,1069.48,Online
+ORD0259,2025-07-16,West,Electronics,Laptop,4,886.39,0.2,2836.45,2374.06,462.39,Retail
+ORD0260,2025-07-16,East,Accessories,USB Hub,10,924.75,0.05,8785.12,6626.92,2158.2,Online
+ORD0261,2025-07-17,North,Office Supplies,Notebook,6,613.24,0.2,2943.55,1785.74,1157.81,Retail
+ORD0262,2025-07-18,South,Furniture,Chair,8,658.81,0.0,5270.48,4165.2,1105.28,Retail
+ORD0263,2025-07-19,North,Furniture,Desk,1,624.09,0.0,624.09,373.54,250.55,Retail
+ORD0264,2025-07-19,North,Electronics,Keyboard,10,711.85,0.0,7118.5,5733.69,1384.81,Retail
+ORD0265,2025-07-20,East,Office Supplies,Notebook,8,49.83,0.0,398.64,215.03,183.61,Online
+ORD0266,2025-07-21,South,Furniture,Chair,7,483.69,0.0,3385.83,2526.81,859.02,Partner
+ORD0267,2025-07-22,West,Office Supplies,Pen Set,1,733.33,0.0,733.33,505.44,227.89,Retail
+ORD0268,2025-07-22,West,Office Supplies,Stapler,2,723.3,0.05,1374.27,733.57,640.7,Online
+ORD0269,2025-07-23,East,Electronics,Monitor,3,954.65,0.15,2434.36,1423.28,1011.08,Retail
+ORD0270,2025-07-24,East,Furniture,Bookshelf,1,791.19,0.2,632.95,319.22,313.73,Online
+ORD0271,2025-07-25,South,Accessories,USB Hub,9,1190.68,0.0,10716.12,7116.24,3599.88,Online
+ORD0272,2025-07-25,West,Electronics,Headphones,8,351.37,0.05,2670.41,1616.78,1053.63,Online
+ORD0273,2025-07-26,West,Furniture,Desk,2,440.59,0.05,837.12,593.87,243.25,Partner
+ORD0274,2025-07-27,West,Furniture,Desk,9,469.86,0.05,4017.3,2426.58,1590.72,Online
+ORD0275,2025-07-28,North,Furniture,Chair,7,566.99,0.15,3373.59,2040.93,1332.66,Online
+ORD0276,2025-07-28,West,Furniture,Cabinet,9,1005.66,0.2,7240.75,5503.82,1736.93,Partner
+ORD0277,2025-07-29,North,Furniture,Desk,6,294.41,0.15,1501.49,776.05,725.44,Partner
+ORD0278,2025-07-30,South,Office Supplies,Stapler,6,934.56,0.1,5046.62,4118.11,928.51,Online
+ORD0279,2025-07-31,North,Electronics,Laptop,4,495.29,0.05,1882.1,1502.47,379.63,Partner
+ORD0280,2025-08-01,South,Office Supplies,Pen Set,10,728.2,0.1,6553.8,4808.73,1745.07,Retail
+ORD0281,2025-08-01,West,Accessories,Mouse,10,764.56,0.0,7645.6,5410.24,2235.36,Retail
+ORD0282,2025-08-02,West,Furniture,Cabinet,2,456.83,0.0,913.66,742.17,171.49,Partner
+ORD0283,2025-08-03,South,Electronics,Keyboard,7,622.45,0.15,3703.58,2092.02,1611.56,Partner
+ORD0284,2025-08-04,East,Furniture,Bookshelf,5,504.44,0.2,2017.76,1064.65,953.11,Online
+ORD0285,2025-08-04,South,Electronics,Keyboard,6,96.92,0.1,523.37,305.56,217.81,Partner
+ORD0286,2025-08-05,East,Office Supplies,Stapler,2,533.04,0.2,852.86,663.61,189.25,Online
+ORD0287,2025-08-06,North,Electronics,Monitor,5,130.41,0.15,554.24,283.85,270.39,Retail
+ORD0288,2025-08-07,North,Accessories,Webcam,10,494.95,0.0,4949.5,3484.36,1465.14,Partner
+ORD0289,2025-08-07,North,Accessories,Webcam,4,717.61,0.2,2296.35,1948.23,348.12,Online
+ORD0290,2025-08-08,West,Electronics,Headphones,9,701.61,0.2,5051.59,4038.71,1012.88,Online
+ORD0291,2025-08-09,North,Electronics,Keyboard,6,800.21,0.0,4801.26,3276.89,1524.37,Retail
+ORD0292,2025-08-10,East,Electronics,Monitor,2,127.88,0.1,230.18,120.22,109.96,Partner
+ORD0293,2025-08-10,North,Electronics,Headphones,1,787.77,0.0,787.77,623.11,164.66,Retail
+ORD0294,2025-08-11,South,Accessories,Webcam,5,384.9,0.2,1539.6,1092.57,447.03,Online
+ORD0295,2025-08-12,South,Furniture,Desk,9,487.87,0.1,3951.75,2134.84,1816.91,Online
+ORD0296,2025-08-13,West,Electronics,Monitor,6,1031.71,0.1,5571.23,2968.63,2602.6,Partner
+ORD0297,2025-08-13,South,Electronics,Monitor,10,25.7,0.0,257.0,210.32,46.68,Online
+ORD0298,2025-08-14,East,Accessories,USB Hub,7,712.27,0.2,3988.71,2928.59,1060.12,Partner
+ORD0299,2025-08-15,North,Accessories,Laptop Stand,5,724.48,0.15,3079.04,2433.21,645.83,Retail
+ORD0300,2025-08-16,West,Office Supplies,Pen Set,10,485.04,0.2,3880.32,3133.91,746.41,Partner
+ORD0301,2025-08-16,North,Electronics,Keyboard,6,295.88,0.05,1686.52,1180.77,505.75,Partner
+ORD0302,2025-08-17,North,Office Supplies,Pen Set,5,293.09,0.15,1245.63,848.41,397.22,Online
+ORD0303,2025-08-18,East,Accessories,USB Hub,9,1062.2,0.1,8603.82,5598.07,3005.75,Online
+ORD0304,2025-08-19,South,Accessories,USB Hub,6,538.8,0.15,2747.88,1678.77,1069.11,Partner
+ORD0305,2025-08-20,South,Furniture,Chair,8,407.1,0.1,2931.12,1911.41,1019.71,Online
+ORD0306,2025-08-20,North,Electronics,Keyboard,2,546.8,0.1,984.24,758.71,225.53,Online
+ORD0307,2025-08-21,West,Office Supplies,Pen Set,9,808.23,0.15,6182.96,4394.06,1788.9,Online
+ORD0308,2025-08-22,South,Accessories,Laptop Stand,5,187.72,0.1,844.74,686.25,158.49,Partner
+ORD0309,2025-08-23,West,Accessories,Mouse,7,547.58,0.1,3449.75,2260.22,1189.53,Online
+ORD0310,2025-08-23,South,Office Supplies,Printer Paper,10,711.64,0.05,6760.58,4816.79,1943.79,Partner
+ORD0311,2025-08-24,West,Furniture,Chair,1,1139.07,0.2,911.26,656.98,254.28,Online
+ORD0312,2025-08-25,East,Accessories,Webcam,10,314.25,0.2,2514.0,1777.63,736.37,Retail
+ORD0313,2025-08-26,West,Electronics,Keyboard,5,440.71,0.05,2093.37,1561.49,531.88,Online
+ORD0314,2025-08-26,East,Accessories,USB Hub,10,464.54,0.15,3948.59,2302.43,1646.16,Online
+ORD0315,2025-08-27,East,Electronics,Keyboard,2,732.56,0.0,1465.12,995.3,469.82,Partner
+ORD0316,2025-08-28,West,Office Supplies,Stapler,6,437.73,0.0,2626.38,1409.0,1217.38,Partner
+ORD0317,2025-08-29,East,Electronics,Laptop,1,647.21,0.0,647.21,410.71,236.5,Online
+ORD0318,2025-08-29,North,Office Supplies,Pen Set,3,941.42,0.05,2683.05,1799.48,883.57,Retail
+ORD0319,2025-08-30,East,Electronics,Laptop,5,850.88,0.05,4041.68,2943.47,1098.21,Online
+ORD0320,2025-08-31,South,Office Supplies,Stapler,4,543.95,0.1,1958.22,1630.58,327.64,Online
+ORD0321,2025-09-01,West,Electronics,Monitor,3,1039.1,0.0,3117.3,2213.99,903.31,Retail
+ORD0322,2025-09-01,North,Furniture,Bookshelf,10,676.4,0.15,5749.4,4371.03,1378.37,Partner
+ORD0323,2025-09-02,West,Electronics,Laptop,5,654.79,0.15,2782.86,1884.53,898.33,Online
+ORD0324,2025-09-03,South,Electronics,Laptop,8,55.51,0.0,444.08,320.6,123.48,Partner
+ORD0325,2025-09-04,South,Furniture,Bookshelf,4,1184.23,0.0,4736.92,2486.06,2250.86,Partner
+ORD0326,2025-09-04,South,Accessories,Webcam,1,160.72,0.0,160.72,94.67,66.05,Retail
+ORD0327,2025-09-05,East,Accessories,Webcam,7,288.89,0.05,1921.12,1203.87,717.25,Retail
+ORD0328,2025-09-06,East,Electronics,Monitor,8,76.26,0.05,579.58,385.64,193.94,Partner
+ORD0329,2025-09-07,West,Furniture,Cabinet,3,773.4,0.05,2204.19,1137.31,1066.88,Online
+ORD0330,2025-09-08,West,Electronics,Laptop,6,281.27,0.2,1350.1,741.22,608.88,Partner
+ORD0331,2025-09-08,North,Office Supplies,Notebook,2,228.31,0.15,388.13,231.67,156.46,Online
+ORD0332,2025-09-09,North,Office Supplies,Notebook,7,119.94,0.15,713.64,599.48,114.16,Online
+ORD0333,2025-09-10,West,Electronics,Headphones,8,137.42,0.1,989.42,609.45,379.97,Retail
+ORD0334,2025-09-11,East,Accessories,Mouse,6,707.83,0.05,4034.63,2698.02,1336.61,Online
+ORD0335,2025-09-11,South,Accessories,Laptop Stand,6,830.53,0.2,3986.54,2266.88,1719.66,Online
+ORD0336,2025-09-12,West,Electronics,Monitor,5,485.89,0.2,1943.56,1387.26,556.3,Partner
+ORD0337,2025-09-13,North,Electronics,Keyboard,8,583.68,0.15,3969.02,2374.42,1594.6,Retail
+ORD0338,2025-09-14,East,Office Supplies,Notebook,1,827.87,0.05,786.48,450.22,336.26,Online
+ORD0339,2025-09-14,West,Accessories,Mouse,10,35.6,0.1,320.4,218.13,102.27,Online
+ORD0340,2025-09-15,West,Electronics,Monitor,4,397.91,0.05,1512.06,758.94,753.12,Retail
+ORD0341,2025-09-16,East,Office Supplies,Pen Set,4,1168.12,0.0,4672.48,2348.77,2323.71,Partner
+ORD0342,2025-09-17,West,Accessories,Laptop Stand,3,702.43,0.05,2001.93,1154.46,847.47,Retail
+ORD0343,2025-09-17,East,Furniture,Bookshelf,3,316.26,0.0,948.78,486.58,462.2,Retail
+ORD0344,2025-09-18,South,Office Supplies,Printer Paper,4,633.25,0.0,2533.0,1362.27,1170.73,Online
+ORD0345,2025-09-19,East,Accessories,Webcam,1,421.04,0.1,378.94,234.41,144.53,Online
+ORD0346,2025-09-20,East,Accessories,USB Hub,2,645.71,0.15,1097.71,857.21,240.5,Partner
+ORD0347,2025-09-20,East,Office Supplies,Stapler,9,164.0,0.05,1402.2,981.84,420.36,Online
+ORD0348,2025-09-21,West,Furniture,Cabinet,10,172.27,0.0,1722.7,1170.46,552.24,Online
+ORD0349,2025-09-22,West,Office Supplies,Notebook,2,185.1,0.05,351.69,211.97,139.72,Retail
+ORD0350,2025-09-23,East,Accessories,Laptop Stand,5,1128.69,0.15,4796.93,3962.81,834.12,Online
+ORD0351,2025-09-23,West,Electronics,Keyboard,9,883.49,0.15,6758.7,4318.51,2440.19,Partner
+ORD0352,2025-09-24,North,Electronics,Monitor,9,207.42,0.2,1493.42,792.23,701.19,Retail
+ORD0353,2025-09-25,North,Office Supplies,Notebook,8,238.19,0.15,1619.69,1159.65,460.04,Partner
+ORD0354,2025-09-26,West,Accessories,Mouse,1,881.03,0.1,792.93,428.06,364.87,Retail
+ORD0355,2025-09-27,West,Electronics,Monitor,1,200.05,0.0,200.05,124.2,75.85,Online
+ORD0356,2025-09-27,East,Accessories,Laptop Stand,9,292.96,0.2,2109.31,1429.26,680.05,Retail
+ORD0357,2025-09-28,South,Office Supplies,Printer Paper,8,1156.57,0.1,8327.3,6711.62,1615.68,Retail
+ORD0358,2025-09-29,West,Electronics,Headphones,10,317.54,0.05,3016.63,2029.41,987.22,Online
+ORD0359,2025-09-30,North,Accessories,Webcam,9,799.03,0.0,7191.27,5363.18,1828.09,Online
+ORD0360,2025-09-30,East,Electronics,Keyboard,7,1174.68,0.15,6989.35,5923.38,1065.97,Partner
+ORD0361,2025-10-01,West,Office Supplies,Stapler,3,458.54,0.0,1375.62,751.12,624.5,Partner
+ORD0362,2025-10-02,North,Accessories,USB Hub,3,35.76,0.05,101.92,60.76,41.16,Online
+ORD0363,2025-10-03,North,Electronics,Laptop,2,304.31,0.2,486.9,310.69,176.21,Online
+ORD0364,2025-10-03,South,Office Supplies,Printer Paper,5,999.59,0.2,3998.36,2589.5,1408.86,Online
+ORD0365,2025-10-04,East,Electronics,Laptop,3,1039.56,0.2,2494.94,1606.39,888.55,Retail
+ORD0366,2025-10-05,East,Electronics,Laptop,6,925.7,0.15,4721.07,3860.25,860.82,Retail
+ORD0367,2025-10-06,South,Furniture,Desk,2,149.04,0.1,268.27,201.18,67.09,Retail
+ORD0368,2025-10-06,South,Furniture,Desk,3,957.68,0.1,2585.74,1843.03,742.71,Online
+ORD0369,2025-10-07,East,Office Supplies,Printer Paper,5,1103.63,0.0,5518.15,3356.58,2161.57,Partner
+ORD0370,2025-10-08,East,Furniture,Desk,1,726.72,0.15,617.71,486.96,130.75,Online
+ORD0371,2025-10-09,West,Office Supplies,Printer Paper,1,1129.94,0.2,903.95,754.14,149.81,Retail
+ORD0372,2025-10-09,West,Furniture,Chair,10,994.8,0.2,7958.4,6266.6,1691.8,Retail
+ORD0373,2025-10-10,South,Electronics,Keyboard,9,805.36,0.05,6885.83,3446.69,3439.14,Online
+ORD0374,2025-10-11,West,Office Supplies,Stapler,7,698.96,0.05,4648.08,3359.36,1288.72,Online
+ORD0375,2025-10-12,North,Office Supplies,Stapler,1,428.06,0.2,342.45,177.35,165.1,Retail
+ORD0376,2025-10-12,West,Electronics,Monitor,8,203.76,0.2,1304.06,769.61,534.45,Retail
+ORD0377,2025-10-13,West,Office Supplies,Pen Set,3,731.87,0.15,1866.27,972.02,894.25,Retail
+ORD0378,2025-10-14,North,Office Supplies,Printer Paper,8,391.96,0.1,2822.11,2007.45,814.66,Online
+ORD0379,2025-10-15,South,Furniture,Chair,5,1041.73,0.05,4948.22,3663.2,1285.02,Retail
+ORD0380,2025-10-16,North,Office Supplies,Printer Paper,1,1192.1,0.1,1072.89,579.44,493.45,Retail
+ORD0381,2025-10-16,West,Accessories,USB Hub,7,906.63,0.15,5394.45,3421.93,1972.52,Partner
+ORD0382,2025-10-17,South,Electronics,Headphones,5,122.22,0.2,488.88,322.51,166.37,Online
+ORD0383,2025-10-18,West,Furniture,Bookshelf,6,357.09,0.1,1928.29,1213.22,715.07,Partner
+ORD0384,2025-10-19,North,Furniture,Desk,6,144.29,0.2,692.59,375.63,316.96,Partner
+ORD0385,2025-10-19,North,Accessories,USB Hub,8,785.86,0.2,5029.5,3252.23,1777.27,Retail
+ORD0386,2025-10-20,West,Electronics,Keyboard,9,921.75,0.0,8295.75,6328.93,1966.82,Online
+ORD0387,2025-10-21,East,Electronics,Keyboard,2,1111.92,0.1,2001.46,1050.47,950.99,Retail
+ORD0388,2025-10-22,East,Furniture,Bookshelf,9,534.23,0.1,4327.26,2285.07,2042.19,Online
+ORD0389,2025-10-22,North,Office Supplies,Stapler,10,1083.13,0.2,8665.04,5408.46,3256.58,Partner
+ORD0390,2025-10-23,North,Furniture,Desk,9,1055.3,0.15,8073.04,6697.43,1375.61,Online
+ORD0391,2025-10-24,East,Electronics,Headphones,10,390.88,0.0,3908.8,2869.06,1039.74,Retail
+ORD0392,2025-10-25,East,Accessories,Laptop Stand,10,1044.65,0.2,8357.2,6163.72,2193.48,Retail
+ORD0393,2025-10-25,West,Furniture,Bookshelf,7,460.17,0.05,3060.13,1917.7,1142.43,Retail
+ORD0394,2025-10-26,West,Electronics,Monitor,1,366.79,0.05,348.45,246.63,101.82,Online
+ORD0395,2025-10-27,East,Furniture,Chair,7,784.15,0.0,5489.05,2763.99,2725.06,Partner
+ORD0396,2025-10-28,West,Office Supplies,Stapler,10,404.13,0.15,3435.1,2482.32,952.78,Partner
+ORD0397,2025-10-28,West,Furniture,Cabinet,5,761.8,0.2,3047.2,2497.64,549.56,Online
+ORD0398,2025-10-29,South,Furniture,Bookshelf,6,737.65,0.1,3983.31,2845.68,1137.63,Retail
+ORD0399,2025-10-30,West,Electronics,Headphones,10,682.68,0.0,6826.8,5501.0,1325.8,Partner
+ORD0400,2025-10-31,North,Electronics,Keyboard,7,465.8,0.15,2771.51,2088.03,683.48,Retail
+ORD0401,2025-10-31,West,Electronics,Monitor,5,664.97,0.1,2992.36,1622.44,1369.92,Online
+ORD0402,2025-11-01,West,Furniture,Chair,7,721.84,0.05,4800.24,3916.32,883.92,Retail
+ORD0403,2025-11-02,East,Office Supplies,Notebook,9,661.64,0.05,5657.02,2960.07,2696.95,Partner
+ORD0404,2025-11-03,North,Accessories,Webcam,3,541.64,0.1,1462.43,1004.53,457.9,Partner
+ORD0405,2025-11-04,West,Accessories,Laptop Stand,8,32.38,0.0,259.04,142.41,116.63,Retail
+ORD0406,2025-11-04,West,Electronics,Monitor,2,710.67,0.05,1350.27,680.67,669.6,Online
+ORD0407,2025-11-05,South,Electronics,Keyboard,7,214.61,0.2,1201.82,778.43,423.39,Retail
+ORD0408,2025-11-06,West,Furniture,Chair,2,776.45,0.1,1397.61,843.13,554.48,Online
+ORD0409,2025-11-07,West,Accessories,Mouse,4,914.82,0.1,3293.35,2206.87,1086.48,Retail
+ORD0410,2025-11-07,South,Electronics,Monitor,7,608.03,0.05,4043.4,2838.55,1204.85,Partner
+ORD0411,2025-11-08,East,Office Supplies,Pen Set,3,657.7,0.0,1973.1,1016.76,956.34,Online
+ORD0412,2025-11-09,West,Office Supplies,Pen Set,2,1142.5,0.2,1828.0,992.7,835.3,Online
+ORD0413,2025-11-10,South,Electronics,Headphones,10,1018.89,0.0,10188.9,7086.63,3102.27,Online
+ORD0414,2025-11-10,North,Electronics,Monitor,7,1098.37,0.15,6535.3,4052.6,2482.7,Partner
+ORD0415,2025-11-11,East,Accessories,USB Hub,1,979.31,0.15,832.41,628.64,203.77,Retail
+ORD0416,2025-11-12,North,Accessories,Mouse,8,144.07,0.05,1094.93,797.44,297.49,Partner
+ORD0417,2025-11-13,North,Furniture,Cabinet,3,191.56,0.05,545.95,434.56,111.39,Online
+ORD0418,2025-11-13,South,Accessories,Mouse,2,639.05,0.05,1214.2,901.39,312.81,Retail
+ORD0419,2025-11-14,West,Office Supplies,Printer Paper,3,306.59,0.15,781.8,508.54,273.26,Partner
+ORD0420,2025-11-15,South,Office Supplies,Printer Paper,5,579.88,0.0,2899.4,2132.62,766.78,Online
+ORD0421,2025-11-16,South,Electronics,Monitor,8,482.32,0.0,3858.56,2301.18,1557.38,Online
+ORD0422,2025-11-16,South,Accessories,Laptop Stand,10,666.06,0.05,6327.57,3842.16,2485.41,Partner
+ORD0423,2025-11-17,South,Furniture,Bookshelf,7,900.05,0.2,5040.28,3911.99,1128.29,Partner
+ORD0424,2025-11-18,East,Office Supplies,Stapler,7,862.86,0.0,6040.02,3963.74,2076.28,Partner
+ORD0425,2025-11-19,West,Office Supplies,Notebook,7,632.66,0.15,3764.33,2934.04,830.29,Online
+ORD0426,2025-11-19,North,Furniture,Cabinet,8,989.54,0.1,7124.69,5613.17,1511.52,Partner
+ORD0427,2025-11-20,North,Furniture,Desk,1,525.57,0.1,473.01,378.48,94.53,Online
+ORD0428,2025-11-21,West,Office Supplies,Stapler,4,1077.61,0.1,3879.4,3184.3,695.1,Partner
+ORD0429,2025-11-22,North,Office Supplies,Pen Set,6,99.47,0.2,477.46,310.75,166.71,Online
+ORD0430,2025-11-23,West,Furniture,Desk,9,1146.27,0.05,9800.61,5994.09,3806.52,Online
+ORD0431,2025-11-23,North,Office Supplies,Printer Paper,2,790.81,0.15,1344.38,946.13,398.25,Retail
+ORD0432,2025-11-24,South,Electronics,Monitor,1,465.39,0.2,372.31,234.52,137.79,Partner
+ORD0433,2025-11-25,North,Electronics,Headphones,10,248.63,0.15,2113.36,1501.28,612.08,Partner
+ORD0434,2025-11-26,West,Furniture,Chair,2,582.83,0.15,990.81,740.09,250.72,Online
+ORD0435,2025-11-26,West,Accessories,Mouse,7,245.55,0.05,1632.91,1209.89,423.02,Online
+ORD0436,2025-11-27,West,Furniture,Chair,3,212.1,0.1,572.67,361.41,211.26,Online
+ORD0437,2025-11-28,West,Furniture,Bookshelf,10,746.56,0.05,7092.32,3960.36,3131.96,Retail
+ORD0438,2025-11-29,West,Accessories,USB Hub,2,634.86,0.2,1015.78,660.95,354.83,Retail
+ORD0439,2025-11-29,East,Accessories,Laptop Stand,7,809.06,0.2,4530.74,2491.49,2039.25,Online
+ORD0440,2025-11-30,East,Accessories,Mouse,2,1116.58,0.2,1786.53,1449.83,336.7,Partner
+ORD0441,2025-12-01,North,Electronics,Keyboard,3,645.73,0.05,1840.33,1142.95,697.38,Partner
+ORD0442,2025-12-02,West,Office Supplies,Pen Set,7,703.4,0.15,4185.23,2318.87,1866.36,Retail
+ORD0443,2025-12-02,North,Electronics,Laptop,4,121.21,0.15,412.11,209.73,202.38,Retail
+ORD0444,2025-12-03,West,Office Supplies,Printer Paper,1,865.4,0.0,865.4,628.31,237.09,Online
+ORD0445,2025-12-04,West,Electronics,Monitor,5,488.89,0.2,1955.56,1413.71,541.85,Partner
+ORD0446,2025-12-05,East,Office Supplies,Stapler,9,1172.42,0.15,8969.01,5553.71,3415.3,Online
+ORD0447,2025-12-05,East,Electronics,Monitor,8,990.46,0.0,7923.68,4160.72,3762.96,Retail
+ORD0448,2025-12-06,South,Accessories,Mouse,9,634.14,0.15,4851.17,3121.1,1730.07,Partner
+ORD0449,2025-12-07,East,Furniture,Bookshelf,10,161.02,0.2,1288.16,784.39,503.77,Partner
+ORD0450,2025-12-08,South,Electronics,Monitor,9,1033.41,0.1,8370.62,6169.08,2201.54,Retail
+ORD0451,2025-12-08,South,Office Supplies,Stapler,7,962.74,0.2,5391.34,3838.76,1552.58,Online
+ORD0452,2025-12-09,South,Accessories,Webcam,4,233.73,0.05,888.17,557.42,330.75,Online
+ORD0453,2025-12-10,South,Electronics,Laptop,5,364.9,0.15,1550.82,893.68,657.14,Partner
+ORD0454,2025-12-11,South,Electronics,Headphones,1,955.19,0.15,811.91,686.72,125.19,Retail
+ORD0455,2025-12-12,North,Accessories,Webcam,1,234.5,0.05,222.77,146.78,75.99,Partner
+ORD0456,2025-12-12,East,Electronics,Headphones,3,1102.54,0.05,3142.24,2328.07,814.17,Retail
+ORD0457,2025-12-13,South,Furniture,Desk,8,518.06,0.1,3730.03,2048.51,1681.52,Online
+ORD0458,2025-12-14,West,Electronics,Keyboard,2,118.14,0.15,200.84,134.55,66.29,Retail
+ORD0459,2025-12-15,East,Furniture,Desk,4,981.66,0.15,3337.64,1700.99,1636.65,Online
+ORD0460,2025-12-15,East,Furniture,Desk,2,457.61,0.1,823.7,557.57,266.13,Retail
+ORD0461,2025-12-16,South,Accessories,Mouse,5,638.9,0.0,3194.5,2675.09,519.41,Partner
+ORD0462,2025-12-17,North,Electronics,Laptop,9,148.08,0.1,1199.45,761.02,438.43,Online
+ORD0463,2025-12-18,South,Accessories,USB Hub,1,18.06,0.2,14.45,7.42,7.03,Partner
+ORD0464,2025-12-18,North,Electronics,Keyboard,5,771.01,0.15,3276.79,1673.9,1602.89,Partner
+ORD0465,2025-12-19,West,Electronics,Headphones,9,625.48,0.05,5347.85,3400.14,1947.71,Online
+ORD0466,2025-12-20,East,Office Supplies,Printer Paper,1,718.34,0.2,574.67,319.52,255.15,Online
+ORD0467,2025-12-21,West,Electronics,Keyboard,9,955.59,0.15,7310.26,3714.88,3595.38,Partner
+ORD0468,2025-12-21,North,Accessories,USB Hub,8,781.23,0.1,5624.86,4301.19,1323.67,Partner
+ORD0469,2025-12-22,North,Furniture,Chair,4,222.11,0.2,710.75,469.44,241.31,Partner
+ORD0470,2025-12-23,West,Electronics,Keyboard,10,442.52,0.15,3761.42,2261.5,1499.92,Partner
+ORD0471,2025-12-24,North,Office Supplies,Notebook,5,1088.48,0.0,5442.4,4435.71,1006.69,Online
+ORD0472,2025-12-24,West,Accessories,Mouse,5,927.38,0.0,4636.9,2506.93,2129.97,Online
+ORD0473,2025-12-25,East,Electronics,Monitor,6,674.61,0.05,3845.28,3209.16,636.12,Partner
+ORD0474,2025-12-26,West,Accessories,Laptop Stand,7,317.94,0.15,1891.74,1153.75,737.99,Retail
+ORD0475,2025-12-27,East,Office Supplies,Stapler,8,372.94,0.0,2983.52,2419.46,564.06,Retail
+ORD0476,2025-12-27,West,Office Supplies,Printer Paper,8,882.37,0.1,6353.06,4517.22,1835.84,Online
+ORD0477,2025-12-28,North,Accessories,Webcam,2,1023.64,0.15,1740.19,1373.61,366.58,Partner
+ORD0478,2025-12-29,West,Electronics,Laptop,9,810.64,0.1,6566.18,5544.51,1021.67,Partner
+ORD0479,2025-12-30,North,Furniture,Cabinet,7,974.29,0.1,6138.03,3688.6,2449.43,Online
+ORD0480,2025-12-31,West,Office Supplies,Pen Set,4,923.49,0.0,3693.96,3089.62,604.34,Retail

@@ -1,0 +1,21 @@
+order_id,order_date,customer_id,customer_name,region,category,subcategory,segment,sales_channel,payment_method,quantity,unit_price,discount,sales,cost,profit
+ORD-10001,2025-04-13,CUST-1062,Customer 48,North,Furniture,Desk,Home Office,Partner,UPI,8,8464.2,0.0,67713.6,38699.24,29014.36
+ORD-10002,2025-12-15,CUST-1057,Customer 136,East,Electronics,Laptop,Consumer,Online,Debit Card,10,1929.9,0.15,16404.15,11038.17,5365.98
+ORD-10003,2025-09-28,CUST-1054,Customer 58,West,Clothing,Jeans,Home Office,Partner,Cash,9,36846.46,0.0,331618.14,213351.59,118266.55
+ORD-10004,2025-04-17,CUST-1070,Customer 101,West,Office Supplies,Printer Ink,Home Office,Online,Credit Card,7,33223.85,0.1,209310.25,157639.12,51671.13
+ORD-10005,2025-03-13,CUST-1101,Customer 112,East,Clothing,Shoes,Consumer,Partner,Debit Card,3,23784.08,0.0,71352.24,52210.84,19141.4
+ORD-10006,2025-07-08,CUST-1057,Customer 62,South,Clothing,Jacket,Home Office,Retail Store,Cash,3,42224.11,0.2,101337.86,66819.97,34517.89
+ORD-10007,2025-01-21,CUST-1138,Customer 39,Central,Furniture,Cabinet,Consumer,Online,Net Banking,2,40302.94,0.05,76575.59,47122.15,29453.44
+ORD-10008,2025-04-13,CUST-1135,Customer 58,West,Office Supplies,Pen,Consumer,Online,UPI,5,29309.18,0.05,139218.6,117836.13,21382.47
+ORD-10009,2025-05-02,CUST-1103,Customer 99,East,Clothing,Shoes,Home Office,Online,Debit Card,3,43426.74,0.0,130280.22,89398.35,40881.87
+ORD-10010,2025-08-03,CUST-1085,Customer 44,East,Electronics,Headphones,Home Office,Partner,Credit Card,6,10371.48,0.05,59117.44,44721.3,14396.14
+ORD-10011,2025-02-14,CUST-1018,Customer 12,North,Food,Beverages,Consumer,Online,UPI,4,1250.5,0.0,5002.0,3201.28,1800.72
+ORD-10012,2025-06-19,CUST-1092,Customer 76,South,Electronics,Monitor,Corporate,Retail Store,Credit Card,2,18450.0,0.1,33210.0,24190.0,9020.0
+ORD-10013,2025-03-27,CUST-1044,Customer 31,Central,Furniture,Chair,Consumer,Online,UPI,5,6500.0,0.05,30875.0,20100.0,10775.0
+ORD-10014,2025-10-11,CUST-1117,Customer 145,West,Food,Snacks,Home Office,Partner,Cash,7,850.75,0.0,5955.25,3970.0,1985.25
+ORD-10015,2025-11-05,CUST-1069,Customer 87,North,Clothing,Shirt,Corporate,Online,Net Banking,4,2750.0,0.15,9350.0,6100.0,3250.0
+ORD-10016,2025-05-23,CUST-1122,Customer 54,South,Office Supplies,Paper,Consumer,Retail Store,Debit Card,10,450.0,0.05,4275.0,2850.0,1425.0
+ORD-10017,2025-07-30,CUST-1033,Customer 19,Central,Electronics,Mobile,Consumer,Online,UPI,2,28999.0,0.1,52198.2,38500.0,13698.2
+ORD-10018,2025-09-09,CUST-1140,Customer 103,East,Furniture,Table,Corporate,Partner,Credit Card,3,11999.0,0.0,35997.0,24500.0,11497.0
+ORD-10019,2025-12-01,CUST-1088,Customer 67,West,Food,Dairy,Home Office,Retail Store,Cash,6,620.0,0.05,3534.0,2250.0,1284.0
+ORD-10020,2025-02-08,CUST-1051,Customer 91,North,Office Supplies,Binder,Consumer,Online,UPI,8,780.0,0.1,5616.0,3650.0,1966.0

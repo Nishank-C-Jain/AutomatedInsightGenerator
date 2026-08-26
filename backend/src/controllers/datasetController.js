@@ -94,8 +94,55 @@ const getDatasets = async (req, res) => {
     }
 };
 
+// Route: Get Single Dataset by ID (with insights and anomalies)
+const getDatasetById = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const datasetId = req.params.id;
+
+        const datasetResult = await pool.query(
+            `SELECT * FROM datasets WHERE id = $1 AND user_id = $2`,
+            [datasetId, userId]
+        );
+
+        if (datasetResult.rows.length === 0) {
+            return res.status(404).json({ success: false, message: "Dataset not found" });
+        }
+
+        const dataset = datasetResult.rows[0];
+
+        // Fetch related insights
+        const insightsResult = await pool.query(
+            `SELECT id, title, summary, content, insight_type FROM insights WHERE dataset_id = $1 ORDER BY created_at ASC`,
+            [datasetId]
+        );
+
+        // Fetch related anomalies
+        const anomaliesResult = await pool.query(
+            `SELECT id, column_name, anomaly_count, anomaly_percentage, anomaly_data FROM anomalies WHERE dataset_id = $1`,
+            [datasetId]
+        );
+
+        return res.status(200).json({
+            success: true,
+            dataset: {
+                ...dataset,
+                insights: insightsResult.rows,
+                anomalies: anomaliesResult.rows
+            }
+        });
+
+    } catch (error) {
+        console.error("Get dataset by id error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch dataset details",
+        });
+    }
+};
 
 export default {
     uploadDataset,
     getDatasets,
+    getDatasetById,
 };

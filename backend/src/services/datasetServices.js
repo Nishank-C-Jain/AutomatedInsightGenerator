@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import pool from '../config/db.js';
 import axios from 'axios';
 
@@ -116,82 +117,126 @@ class DatasetServices {
   /**
    * Process dataset asynchronously by calling Python analytics engine
    */
+  /**
+   * Process dataset asynchronously:
+   *   1. POST file_path + dataset_id to Python analytics service
+   *   2. Python runs all 9 analyzers and saves analysis_results to DB
+   *   3. Node then inserts structured insights & anomalies rows
+   */
   async processDataset(datasetId, userId, filePath) {
+    const pythonApiUrl = process.env.PYTHON_API_URL || 'http://127.0.0.1:8000';
+
+    // Resolve to absolute path — Python needs a full filesystem path
+    const absoluteFilePath = path.resolve(filePath);
+
     try {
-      console.log(`Starting processing for dataset ${datasetId}...`);
-      
-      const pythonApiUrl = process.env.PYTHON_API_URL || 'http://127.0.0.1:8000';
-      const response = await axios.post(`${pythonApiUrl}/api/analyze`, {
-        file_path: filePath
-      });
+      console.log(`[Dataset ${datasetId}] Calling Python analytics service...`);
+      console.log(`[Dataset ${datasetId}] File path: ${absoluteFilePath}`);
 
-      const analysisResults = response.data.analysis_results;
+      // POST to the new /api/analysis/path endpoint
+      // Python will run all analyzers AND save analysis_results to datasets table
+      const response = await axios.post(
+        `${pythonApiUrl}/api/analysis/path`,
+        {
+          file_path: absoluteFilePath,
+          dataset_id: datasetId,   // tells Python to persist to DB itself
+        },
+        { timeout: 120_000 }        // 2-minute timeout for large files
+      );
 
-      // Begin a transaction to update dataset and insert insights/anomalies
+      // Response envelope: { success, row_count, column_count, saved_to_db, analysis }
+      const { analysis } = response.data;
+
+      if (!analysis) {
+        throw new Error('Python service returned no analysis data');
+      }
+
+      // Begin a transaction to insert structured insights & anomalies rows
       const client = await pool.connect();
       try {
         await client.query('BEGIN');
-        
-        // 1. Update dataset with full analysis_results jsonb and status completed
+
+        // 1. Mark dataset as 'analyzed' (Python may have already set this,
+        //    but we confirm from Node side too)
         await client.query(
-          `UPDATE datasets SET status = 'completed', analysis_results = $1 WHERE id = $2`,
-          [JSON.stringify(analysisResults), datasetId]
+          `UPDATE datasets SET status = 'analyzed', updated_at = NOW() WHERE id = $1`,
+          [datasetId]
         );
 
-        // 2. Insert insights
-        if (analysisResults.insights && Array.isArray(analysisResults.insights)) {
-          for (let i = 0; i < analysisResults.insights.length; i++) {
-            const insightText = analysisResults.insights[i];
+        // 2. Insert insights rows (analysis.insights is a string[]) 
+        if (Array.isArray(analysis.insights)) {
+          for (let i = 0; i < analysis.insights.length; i++) {
+            const insightText = analysis.insights[i];
+            const summary = insightText.length > 50
+              ? insightText.substring(0, 50) + '...'
+              : insightText;
+
             await client.query(
               `INSERT INTO insights (dataset_id, user_id, title, summary, content, insight_type)
                VALUES ($1, $2, $3, $4, $5, $6)`,
               [
                 datasetId,
                 userId,
-                `Insight #${i+1}`,
-                insightText.substring(0, 50) + '...',
+                `Insight #${i + 1}`,
+                summary,
                 JSON.stringify({ text: insightText }),
-                'summary'
+                'summary',
               ]
             );
           }
         }
 
-        // 3. Insert anomalies if present
-        if (analysisResults.anomalies && analysisResults.anomalies.anomaly_count > 0) {
-          const anom = analysisResults.anomalies;
-          await client.query(
-            `INSERT INTO anomalies (dataset_id, user_id, column_name, anomaly_count, anomaly_percentage, anomaly_data)
-             VALUES ($1, $2, $3, $4, $5, $6)`,
-            [
-              datasetId,
-              userId,
-              anom.column,
-              anom.anomaly_count,
-              anom.anomaly_percentage,
-              JSON.stringify({
-                detected_indices: anom.detected_indices,
-                detected_values: anom.detected_values
-              })
-            ]
-          );
+        // 3. Insert anomalies rows
+        // analysis.anomalies is now a per-column dict: { colName: { anomaly_count, ... } }
+        // DB schema: anomaly_type, anomaly_value (count as string), severity, details (JSONB)
+        const anomaliesMap = analysis.anomalies;
+        if (anomaliesMap && typeof anomaliesMap === 'object' && !anomaliesMap.message) {
+          for (const [colName, anom] of Object.entries(anomaliesMap)) {
+            if (anom && anom.anomaly_count > 0) {
+              const pct = anom.anomaly_percentage ?? 0;
+              const severity = pct > 10 ? 'high' : pct > 5 ? 'medium' : 'low';
+              await client.query(
+                `INSERT INTO anomalies
+                   (dataset_id, user_id, column_name, anomaly_type, anomaly_value, severity, details)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                [
+                  datasetId,
+                  userId,
+                  colName,
+                  'zscore_outlier',
+                  String(anom.anomaly_count),   // count stored as text in anomaly_value
+                  severity,
+                  JSON.stringify({
+                    anomaly_count:      anom.anomaly_count,
+                    anomaly_percentage: anom.anomaly_percentage,
+                    detected_indices:   anom.detected_indices,
+                    detected_values:    anom.detected_values,
+                  }),
+                ]
+              );
+            }
+          }
         }
 
+
         await client.query('COMMIT');
-        console.log(`Processing complete for dataset ${datasetId}`);
+        console.log(`[Dataset ${datasetId}] Processing complete ✓`);
+
       } catch (dbError) {
         await client.query('ROLLBACK');
         throw dbError;
       } finally {
         client.release();
       }
-      
+
     } catch (error) {
-      console.error(`Error processing dataset ${datasetId}:`, error.message);
-      
-      // Update status to failed
+      console.error(`[Dataset ${datasetId}] Auto-analysis failed:`, error.message);
+
+      // Set status to 'ready' — the file uploaded fine, analysis can be
+      // triggered manually from the Analytics tab. 'failed' is reserved
+      // for cases where the file itself is unreadable or corrupt.
       await pool.query(
-        `UPDATE datasets SET status = 'failed' WHERE id = $1`,
+        `UPDATE datasets SET status = 'ready', updated_at = NOW() WHERE id = $1`,
         [datasetId]
       );
     }

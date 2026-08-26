@@ -122,14 +122,20 @@ class DataQualityAnalyzer:
         score = round(score, 1)
 
         return {
+            # canonical score key
             "score": score,
+            # frontend-friendly aliases (App.jsx reads overall_score, total_rows, total_columns)
+            "overall_score":  score,
+            "total_rows":     num_rows,
+            "total_columns":  num_cols,
+            # the rest of the payload
             "missing_values": missing_values,
             "duplicates": {
-                "duplicate_count": duplicate_count,
-                "duplicate_percentage": duplicate_percentage
+                "duplicate_count":      duplicate_count,
+                "duplicate_percentage": duplicate_percentage,
             },
-            "constant_columns": constant_columns,
-            "high_cardinality": high_cardinality,
-            "outliers": outliers,
-            "column_classification": column_classification
+            "constant_columns":    constant_columns,
+            "high_cardinality":    high_cardinality,
+            "outliers":            outliers,
+            "column_classification": column_classification,
         }

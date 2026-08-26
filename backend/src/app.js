@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
 import errorMiddleware from './middleware/errorMiddleware.js';
-import datasetRoutes from './routes/datasets.js';
 
 const app = express();
 
@@ -30,7 +29,7 @@ app.use(cookieParser());
 // Serve static upload resources
 app.use('/uploads', express.static('uploads'));
 
-// Mount API routes
+// Mount API routes (includes /auth, /datasets, /analytics, /dashboard, etc.)
 app.use('/api', apiRouter);
 
 // Healthcheck Route
@@ -43,7 +42,5 @@ app.get('/', (req, res) => {
 
 // Centralized error handler (must be registered after all route definitions)
 app.use(errorMiddleware);
-
-app.use("/api/datasets", datasetRoutes);
 
 export default app;

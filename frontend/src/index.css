@@ -437,6 +437,11 @@ body {
   color: #f87171;
 }
 
+.badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
 /* Chat view styling */
 .chat-widget {
   display: flex;
@@ -699,5 +704,284 @@ body {
 .user-logout-btn:hover {
   color: var(--danger);
   background: rgba(239, 68, 68, 0.1);
+}
+
+/* ─── Analytics Tab Utilities ─────────────────────────────────────── */
+
+/* Overview banner — scrollable row of KPI chips */
+.analysis-overview-banner {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Individual KPI chip */
+.kpi-chip {
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 120px;
+  flex: 1;
+  backdrop-filter: blur(8px);
+  transition: var(--transition-smooth);
+}
+
+.kpi-chip:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.kpi-chip-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.kpi-chip-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+/* Insight card — left-border accent */
+.insight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-glass);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: var(--transition-smooth);
+}
+
+.insight-card:hover {
+  background: rgba(139, 92, 246, 0.05);
+  border-left-color: var(--secondary);
+}
+
+.insight-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* CSS-only spinner for loading button */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Toast Notification System ──────────────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  width: calc(100vw - 48px);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  animation: toast-slide-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  pointer-events: all;
+}
+
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateX(40px) scale(0.94); }
+  to   { opacity: 1; transform: translateX(0)    scale(1); }
+}
+
+/* ─── Onboarding Modal ────────────────────────────────────────────────────── */
+.onboarding-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(8, 7, 13, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: ob-backdrop-in 0.3s ease both;
+}
+
+@keyframes ob-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.onboarding-modal {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(18, 17, 28, 0.98);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 22px;
+  padding: 38px 40px;
+  box-shadow: 0 0 80px rgba(139,92,246,0.18), 0 24px 64px rgba(0,0,0,0.6);
+  animation: ob-modal-in 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes ob-modal-in {
+  from { opacity: 0; transform: translateY(28px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ─── Skeleton / Shimmer ──────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.7s infinite linear;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Step Progress Bar ───────────────────────────────────────────────────── */
+.step-progress {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  gap: 0;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 0.35s ease;
+}
+
+.step-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.step-line {
+  flex: 1;
+  min-width: 20px;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 1px;
+  margin: 0 8px;
+  transition: background 0.4s ease;
+}
+.step-line.done { background: var(--primary); }
+
+.step-item.step-done   .step-circle { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1.5px solid rgba(139,92,246,0.35); }
+.step-item.step-done   .step-label  { color: var(--text-primary); }
+.step-item.step-active .step-circle { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; box-shadow: 0 0 14px rgba(139,92,246,0.55); }
+.step-item.step-active .step-label  { color: var(--text-primary); font-weight: 600; }
+.step-item.step-pending .step-circle { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1.5px solid rgba(255,255,255,0.1); }
+.step-item.step-pending .step-label  { color: var(--text-muted); }
+
+/* ─── Rich Empty State Cards ──────────────────────────────────────────────── */
+.empty-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 64px 40px;
+  gap: 14px;
+}
+
+.empty-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.empty-state-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.empty-state-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 380px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.empty-state-card .cta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 

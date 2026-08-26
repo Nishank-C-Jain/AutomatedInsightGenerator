@@ -19,8 +19,10 @@ const getDashboardStats = async (req, res) => {
         const insightsCount = parseInt(insightsCountResult.rows[0].count, 10);
 
         // 3. Get total anomalies count
+        // Each row in the anomalies table represents one detected anomaly column.
+        // anomaly_value stores the count of anomalous rows as a string.
         const anomaliesCountResult = await pool.query(
-            'SELECT SUM(anomaly_count) as total_anomalies FROM anomalies WHERE user_id = $1', 
+            'SELECT COUNT(*) as total_anomalies FROM anomalies WHERE user_id = $1', 
             [userId]
         );
         const anomaliesCount = parseInt(anomaliesCountResult.rows[0].total_anomalies || 0, 10);

@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 class TrendAnalyzer:
     def __init__(self, df: pd.DataFrame):
         self.df = df
@@ -21,24 +22,29 @@ class TrendAnalyzer:
         if len(temp_df) < 2:
             return {"error": "Insufficient data points for trend analysis"}
 
-        # Linear regression calculation to find trend slope
+        # Linear regression to find trend slope
         x = np.arange(len(temp_df))
-        y = temp_df[value_col].values
-        
+        y = temp_df[value_col].values.astype(float)
+
         slope, intercept = np.polyfit(x, y, 1)
-        
-        # Calculate percentage change
-        start_val = y[0]
-        end_val = y[-1]
+
+        # Fitted (smoothed) trend line values — used by the SVG chart in the UI
+        trend_values = [float(slope * xi + intercept) for xi in x]
+
+        # Percentage change first → last
+        start_val = float(y[0])
+        end_val   = float(y[-1])
         pct_change = float((end_val - start_val) / start_val) if start_val != 0 else 0.0
 
         direction = "upward" if slope > 0 else "downward" if slope < 0 else "stable"
-        
+
         return {
-            "slope": float(slope),
-            "intercept": float(intercept),
-            "direction": direction,
-            "pct_change": pct_change,
-            "start_value": float(start_val),
-            "end_value": float(end_val)
+            "slope":        float(slope),
+            "intercept":    float(intercept),
+            "direction":    direction,
+            "pct_change":   pct_change,
+            "start_value":  start_val,
+            "end_value":    end_val,
+            # Array of fitted values — consumed by the Trends & Forecasting SVG chart
+            "trend_values": trend_values,
         }
