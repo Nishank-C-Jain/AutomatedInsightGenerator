@@ -7,13 +7,16 @@ dotenv.config();
 const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  
-  // Database Configuration
+
+  // Render injects DATABASE_URL for attached PostgreSQL — use it when available
+  DATABASE_URL: z.string().url().optional(),
+
+  // Individual DB vars (used locally when DATABASE_URL is not set)
   DB_HOST: z.string().default('localhost'),
   DB_PORT: z.coerce.number().default(5432),
-  DB_NAME: z.string(),
-  DB_USER: z.string(),
-  DB_PASSWORD: z.string(),
+  DB_NAME: z.string().optional(),
+  DB_USER: z.string().optional(),
+  DB_PASSWORD: z.string().optional(),
   
   // JWT Configuration (at least 16 characters for security)
   JWT_ACCESS_SECRET: z.string().min(16, "Access secret should be at least 16 characters for security"),
