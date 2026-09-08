@@ -16,11 +16,26 @@ app.set("trust proxy", 1);
 // Security headers
 app.use(helmet());
 
-// CORS configuration supporting dynamic validation and HttpOnly credential transfers
+// CORS configuration — supports local dev and deployed frontend
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  env.FRONTEND_URL,          // set FRONTEND_URL on Render dashboard
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
-    credentials: true
+    origin: (origin, callback) => {
+      // Allow server-to-server (no origin) or listed origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: origin ${origin} not allowed`));
+      }
+    },
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
 

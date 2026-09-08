@@ -80,11 +80,12 @@ class AuthController {
       const { user, accessToken, rawRefreshToken: newRefreshToken } = await authService.refresh(refreshToken);
 
       // Set new refresh token in cookie (rotation)
+      const isProduction = process.env.NODE_ENV === 'production';
       res.cookie('refreshToken', newRefreshToken, {
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/'
       });
 
@@ -109,10 +110,11 @@ class AuthController {
       }
 
       // Clear refresh token cookie
+      const isProduction = process.env.NODE_ENV === 'production';
       res.clearCookie('refreshToken', {
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         path: '/'
       });
 
