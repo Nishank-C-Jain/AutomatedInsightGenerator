@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
 import errorMiddleware from './middleware/errorMiddleware.js';
+import pool from './config/db.js';
+
 
 const app = express();
 
@@ -39,8 +41,5 @@ app.get('/', (req, res) => {
     message: 'Automated Insight Generator API is running.'
   });
 });
-
-// Centralized error handler (must be registered after all route definitions)
-app.use(errorMiddleware);
 
 export default app;

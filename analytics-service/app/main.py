@@ -6,9 +6,10 @@ from pydantic import BaseModel
 
 import pandas as pd
 
-# Load .env from the project root or the backend directory
+# Load analytics-service's own .env first (GEMINI_API_KEY, GEMINI_MODEL, etc.)
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../.env"))
+# Then load backend .env as fallback for DB credentials
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../../backend/.env"))
-load_dotenv()  # fallback: .env next to the analytics-service entry point
 
 from app.analyzers.profiler import profile_dataset
 from app.services.analysis_services import analyze_dataset
@@ -23,6 +24,15 @@ app = FastAPI(
 # ── existing router (multipart + path + DB persistence) ──────────────────── #
 from app.routes.analysis import router as analysis_router
 app.include_router(analysis_router, prefix="/api", tags=["analysis"])
+
+# ── dataset-specific AI chat ──────────────────────────────────────────────── #
+from app.routes.chat import router as chat_router
+app.include_router(chat_router, prefix="/api", tags=["chat"])
+
+# ── dataset preview (rows + column metadata) ──────────────────────────────── #
+from app.routes.preview import router as preview_router
+app.include_router(preview_router, prefix="/api", tags=["preview"])
+
 
 
 # ── simple CSV-upload endpoint (no DB, beginner-friendly) ────────────────── #

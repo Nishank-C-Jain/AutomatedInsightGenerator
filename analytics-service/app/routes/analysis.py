@@ -1,6 +1,8 @@
 import io
 import json
 import os
+import traceback
+import re
 
 import pandas as pd
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
@@ -91,7 +93,17 @@ def run_analysis_path(request: AnalysisPathRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to load file: {e}")
+
+        print("\n========== REAL ERROR ==========")
+        print("TYPE:", type(e).__name__)
+        print("MESSAGE:", repr(e))
+        traceback.print_exc()
+        print("================================\n")
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"{type(e).__name__}: {str(e)}"
+        )
 
     return _run_and_respond(df, dataset_id=request.dataset_id)
 
@@ -114,7 +126,12 @@ def _run_and_respond(df: pd.DataFrame, dataset_id: Optional[str]) -> JSONRespons
     try:
         results = analyze_dataset(df)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Analysis failed: {type(e).__name__}: {e}"
+        )
 
     # --- Persist to DB (non-fatal) ---
     db_warning: Optional[str] = None
@@ -173,7 +190,7 @@ def _save_to_db(dataset_id: str, results: dict, row_count: int, col_count: int) 
                     analysis_results = %s::jsonb,
                     row_count        = %s,
                     column_count     = %s,
-                    status           = 'analyzed',
+                    status           = 'completed',
                     updated_at       = NOW()
                 WHERE id = %s::uuid
                 """,

@@ -70,14 +70,17 @@ class AnalyticServices {
       }
 
     } catch (err) {
-      // Mark dataset as failed and re-throw so the controller can respond
       await AnalysisResultModel.setFailed(datasetId);
 
-      const error = new Error(
-        err.response?.data?.detail || err.message || 'Python analytics service error'
-      );
-      error.statusCode = err.response?.status || 502;
-      throw error;
+      console.error('\n========== PYTHON ANALYTICS ERROR ==========');
+      console.error('Message:', err.message);
+      console.error('HTTP Status:', err.response?.status);
+      console.error('Python Response:', err.response?.data.detail || err.response?.data);
+      console.error('Error Code:', err.code);
+      console.error('Python URL:', err.config?.url);
+      console.error('============================================\n');
+
+      throw err;
     }
 
     // ── 4. Persist structured rows in a transaction ────────────────────── //
@@ -85,7 +88,7 @@ class AnalyticServices {
     try {
       await client.query('BEGIN');
 
-      // 4a. Save analysis result + confirm status = 'analyzed' via model
+      // 4a. Save analysis result + confirm status = 'completed' via model
       await AnalysisResultModel.save(datasetId, analysis);
 
       // 4b. Clear any previous insights for this dataset before re-inserting
@@ -139,12 +142,12 @@ class AnalyticServices {
                 String(anom.anomaly_count),   // number of anomalous rows
                 severity,
                 JSON.stringify({
-                  anomaly_count:      anom.anomaly_count,
+                  anomaly_count: anom.anomaly_count,
                   anomaly_percentage: anom.anomaly_percentage,
-                  detected_indices:   anom.detected_indices,
-                  detected_values:    anom.detected_values,
-                  mean:               anom.mean,
-                  std:                anom.std,
+                  detected_indices: anom.detected_indices,
+                  detected_values: anom.detected_values,
+                  mean: anom.mean,
+                  std: anom.std,
                 }),
               ]
             );

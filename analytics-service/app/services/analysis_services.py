@@ -10,6 +10,8 @@ from app.analyzers.kpis import KPIAnalyzer
 from app.analyzers.forecasting import Forecaster
 from app.analyzers.insights import InsightSynthesizer
 from app.analyzers.recommendations import RecommendationGenerator
+from app.intelligence.context_builder import AIContextBuilder
+from app.services.llm_service import LLMService
 
 
 def analyze_dataset(df: pd.DataFrame) -> dict:
@@ -61,9 +63,19 @@ def analyze_dataset(df: pd.DataFrame) -> dict:
     if not datetime_cols:
         for col in df.select_dtypes(include=["object"]).columns:
             try:
-                pd.to_datetime(df[col].dropna().head())
-                datetime_cols.append(col)
-                break
+                sample = df[col].dropna().head(20)
+
+                if not sample.empty:
+                    converted = pd.to_datetime(
+                        sample,
+                        format="mixed",
+                        errors="coerce"
+                    )
+
+                    valid_ratio = converted.notna().mean()
+
+                    if valid_ratio >= 0.8:
+                        datetime_cols.append(col)
             except Exception:
                 pass
 
@@ -90,34 +102,70 @@ def analyze_dataset(df: pd.DataFrame) -> dict:
         results["anomalies"] = {"message": "No numeric columns found."}
 
     # ------------------------------------------------------------------ #
-    # 8. Insights                                                          #
+    # 8. Insights
     # ------------------------------------------------------------------ #
     # Adapter: InsightSynthesizer expects:
-    #   profile  → { num_rows, num_cols, columns: [{name, missing_pct}] }
-    #   stats    → { numerical: { col: { mean, min, max } } }
-    #   anomalies→ a single anomaly result dict
-    insight_profile = _build_insight_profile(df, data_quality)
-    first_anomaly = _pick_representative_anomaly(results["anomalies"])
+    #   profile      → dataset structure + missing value information
+    #   stats        → numerical statistics
+    #   anomalies    → one representative anomaly result
+    #   correlations → correlation analyzer results
+    #   trends       → trend analyzer results
 
-    insights = InsightSynthesizer(df).generate_insights(
+    insight_profile = _build_insight_profile(
+        df,
+        data_quality
+    )
+
+    first_anomaly = _pick_representative_anomaly(
+        results["anomalies"]
+    )
+
+    insights = InsightSynthesizer(
+        df
+    ).generate_insights(
         profile=insight_profile,
         stats=statistics,
         anomalies=first_anomaly,
+        correlations=results["correlations"],
+        trends=results["trends"],
     )
+
     results["insights"] = insights
 
     # ------------------------------------------------------------------ #
-    # 9. Recommendations                                                   #
+    # 9. Recommendations
     # ------------------------------------------------------------------ #
     # Adapter: RecommendationGenerator expects:
     #   quality → { duplicate_pct, column_issues: { col: reason } }
     rec_quality = _build_rec_quality(data_quality)
-
+    insight_messages = [
+        insight["message"]
+        for insight in insights
+        if isinstance(insight, dict)
+        and insight.get("message")
+    ]
     recommendations = RecommendationGenerator(df).generate_recommendations(
-        insights=insights,
+        insights=insight_messages,
         quality=rec_quality,
     )
     results["recommendations"] = recommendations
+
+    # ------------------------------------------------------------------ #
+    # 10. AI-ready context                                                 #
+    # ------------------------------------------------------------------ #
+    ai_context = AIContextBuilder().build(results)
+
+    results["ai_context"] = ai_context
+
+    # ------------------------------------------------------------------ #
+    # 11. Gemini AI Analysis Summary                                       #
+    # ------------------------------------------------------------------ #
+    try:
+        summary_text = LLMService().generate_analysis_summary(ai_context)
+        results["ai_analysis"] = {"summary": summary_text}
+    except Exception as e:
+        print(f"[AI Analysis] Gemini summary skipped: {e}")
+        results["ai_analysis"] = {"summary": None}
 
     return results
 

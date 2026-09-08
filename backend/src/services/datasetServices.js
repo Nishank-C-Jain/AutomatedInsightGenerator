@@ -68,7 +68,7 @@ class DatasetServices {
   /**
    * Save dataset metadata to Database
    */
-  async createDataset({ userId, name, originalFilename, fileType, fileSize, storagePath, status = 'processing' }) {
+  async createDataset({ userId, name, originalFilename, fileType, fileSize, storagePath, status = 'uploaded' }) {
     // Determine the type: .csv -> csv, .json -> json, etc.
     let normalizedType = fileType.toLowerCase();
     if (normalizedType.startsWith('.')) {
@@ -159,7 +159,7 @@ class DatasetServices {
         // 1. Mark dataset as 'analyzed' (Python may have already set this,
         //    but we confirm from Node side too)
         await client.query(
-          `UPDATE datasets SET status = 'analyzed', updated_at = NOW() WHERE id = $1`,
+          `UPDATE datasets SET status = 'completed', updated_at = NOW() WHERE id = $1`,
           [datasetId]
         );
 
@@ -232,11 +232,10 @@ class DatasetServices {
     } catch (error) {
       console.error(`[Dataset ${datasetId}] Auto-analysis failed:`, error.message);
 
-      // Set status to 'ready' — the file uploaded fine, analysis can be
-      // triggered manually from the Analytics tab. 'failed' is reserved
-      // for cases where the file itself is unreadable or corrupt.
+      // Set status back to 'uploaded' — the file is intact, analysis can be
+      // triggered manually from the Analytics tab.
       await pool.query(
-        `UPDATE datasets SET status = 'ready', updated_at = NOW() WHERE id = $1`,
+        `UPDATE datasets SET status = 'uploaded', updated_at = NOW() WHERE id = $1`,
         [datasetId]
       );
     }

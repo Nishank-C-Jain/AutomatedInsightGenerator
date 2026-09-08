@@ -21,11 +21,28 @@ const runAnalysis = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('[analyticsController] runAnalysis error:', error.message);
-    const status = error.statusCode || 500;
+    console.error('\n========== RUN ANALYSIS ERROR ==========');
+    console.error('Message:', error.message);
+    console.error('Status:', error.response?.status);
+    console.error('Python response:', error.response?.data);
+    console.error('Full error:', error);
+    console.error('========================================\n');
+
+    const status =
+      error.response?.status ||
+      error.statusCode ||
+      500;
+
+    const pythonError =
+      error.response?.data?.detail ||
+      error.response?.data?.message;
+
     return res.status(status).json({
       success: false,
-      message: error.message || 'Analysis failed',
+      message:
+        pythonError ||
+        error.message ||
+        'Analysis failed',
     });
   }
 };

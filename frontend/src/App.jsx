@@ -21,10 +21,25 @@ import {
   Lightbulb,
   CheckCircle2,
   X,
-  ArrowRight
+  ArrowRight,
+  Trash2,
+  Send
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext.jsx';
-import { fetchDashboardStats, fetchDatasets, fetchAnalysis, runAnalysis, uploadDataset } from './api/services.js';
+import { 
+  fetchDashboardStats, 
+  fetchDatasets, 
+  fetchAnalysis, 
+  runAnalysis, 
+  uploadDataset,
+  sendChatMessage,
+  fetchChatHistory,
+  clearChatHistory,
+  fetchDatasetPreview
+} from './api/services.js';
+import DatasetPreviewModal from './components/DatasetPreviewModal.jsx';
+import ExportMenu from './components/ExportMenu.jsx';
+
 
 // Splash screen shown during auto-refresh check
 function SplashLoading() {
@@ -334,8 +349,13 @@ function App() {
   const [dragActive, setDragActive] = useState(false);
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState([
-    { sender: 'assistant', text: "Hello! I am your Automated Insight Assistant. Upload a dataset or ask me any question about your data." }
+    { sender: 'assistant', text: "Hello! Select a dataset to start chatting with your AI assistant." }
   ]);
+  const [chatSessionId, setChatSessionId] = useState(null);
+  const [isChatSending, setIsChatSending] = useState(false);
+  const [isChatLoadingHistory, setIsChatLoadingHistory] = useState(false);
+  const chatEndRef = useRef(null);
+
   const [selectedDataset, setSelectedDataset] = useState('');
   const [uploadMessage, setUploadMessage] = useState(''); // success/error feedback
   const fileInputRef = useRef(null);
@@ -343,6 +363,9 @@ function App() {
   const [dashboardStats, setDashboardStats] = useState(null);
   const [datasetsList, setDatasetsList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  // Dataset preview modal state
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   // Analytics tab state
   const [analysisData, setAnalysisData] = useState(null);
@@ -371,10 +394,50 @@ function App() {
       }).catch(console.error);
       
       fetchDatasets().then(res => {
-        if (res.success) setDatasetsList(res.datasets);
+        if (res.success) {
+          setDatasetsList(res.datasets);
+          if (res.datasets.length > 0 && !selectedDataset) {
+            setSelectedDataset(res.datasets[0].id);
+          }
+        }
       }).catch(console.error);
     }
   }, [isAuthenticated, activeTab]);
+
+  // Auto-scroll chat to bottom
+  useEffect(() => {
+    if (activeTab === 'chat') {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatMessages, isChatSending, activeTab]);
+
+  // Load chat history when dataset or chat tab changes
+  useEffect(() => {
+    if (activeTab === 'chat' && selectedDataset) {
+      setIsChatLoadingHistory(true);
+      fetchChatHistory(selectedDataset)
+        .then(res => {
+          if (res.success && res.messages && res.messages.length > 0) {
+            setChatSessionId(res.session_id);
+            setChatMessages(res.messages.map(m => ({
+              sender: m.sender === 'user' ? 'user' : 'assistant',
+              text: m.message
+            })));
+          } else {
+            setChatSessionId(res?.session_id || null);
+            setChatMessages([
+              { sender: 'assistant', text: "Hello! I'm your dataset assistant. Ask me questions about trends, correlations, anomalies, or KPIs in your dataset!" }
+            ]);
+          }
+        })
+        .catch(err => {
+          console.error("Failed to fetch chat history:", err);
+        })
+        .finally(() => {
+          setIsChatLoadingHistory(false);
+        });
+    }
+  }, [activeTab, selectedDataset]);
 
   // When user picks a dataset in the Analytics tab, try to load cached results
   useEffect(() => {
@@ -391,7 +454,6 @@ function App() {
       setAnalysisStatus(res.status || null);
       if (res.analysis) {
         setAnalysisData(res.analysis);
-        addToast('Cached analysis loaded — results are ready!', 'info');
       }
     }).catch(() => {
       setAnalysisStatus(null);
@@ -409,7 +471,7 @@ function App() {
       const res = await runAnalysis(selectedDataset);
       if (res.success && res.analysis) {
         setAnalysisData(res.analysis);
-        setAnalysisStatus('analyzed');
+        setAnalysisStatus('completed');
         addToast('Analysis complete! All 9 analyzers finished successfully.', 'success');
       } else {
         const msg = res.message || 'Analysis returned no data.';
@@ -490,21 +552,63 @@ function App() {
     }
   };
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (!chatInput.trim()) return;
+  const handleSendMessage = async (e, textToSend = null) => {
+    if (e) e.preventDefault();
+    const query = textToSend || chatInput;
+    if (!query.trim() || isChatSending) return;
     
-    const userMsg = { sender: 'user', text: chatInput };
+    if (!selectedDataset) {
+      addToast('Please select a dataset to chat with.', 'warning');
+      return;
+    }
+
+    const question = query.trim();
+    const userMsg = { sender: 'user', text: question };
     setChatMessages(prev => [...prev, userMsg]);
-    setChatInput('');
-    
-    setTimeout(() => {
+    if (!textToSend) setChatInput('');
+    setIsChatSending(true);
+
+    try {
+      const res = await sendChatMessage(selectedDataset, question, chatSessionId);
+      if (res.success) {
+        setChatSessionId(res.session_id);
+        setChatMessages(prev => [...prev, {
+          sender: 'assistant',
+          text: res.answer
+        }]);
+      } else {
+        const msg = res.message || 'Failed to get answer.';
+        addToast(msg, 'error');
+        setChatMessages(prev => [...prev, {
+          sender: 'assistant',
+          text: `⚠️ ${msg}`
+        }]);
+      }
+    } catch (err) {
+      const msg = err?.response?.data?.message || err.message || 'AI Chat failed.';
+      addToast(msg, 'error');
       setChatMessages(prev => [...prev, {
         sender: 'assistant',
-        text: `I've analyzed your query about "${userMsg.text}". I recommend running a linear forecast on your current dataset to project the metrics for the next 3 months.`
+        text: `⚠️ ${msg}`
       }]);
-    }, 1000);
+    } finally {
+      setIsChatSending(false);
+    }
   };
+
+  const handleClearChat = async () => {
+    if (!selectedDataset) return;
+    try {
+      await clearChatHistory(selectedDataset, chatSessionId);
+      setChatMessages([
+        { sender: 'assistant', text: "Chat history cleared. What else would you like to ask about this dataset?" }
+      ]);
+      addToast('Chat history cleared.', 'info');
+    } catch (err) {
+      addToast('Failed to clear chat history.', 'error');
+    }
+  };
+
 
   // Guard routing checks
   if (loading) {
@@ -704,10 +808,14 @@ function App() {
                   return (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       {recent.map((ds, i) => {
-                        const statusColor = ds.status === 'analyzed' || ds.status === 'completed' ? '#10b981'
+                        const statusColor = ds.status === 'completed' ? '#10b981'
                           : ds.status === 'failed' ? '#ef4444'
-                          : ds.status === 'ready' ? '#f59e0b'
-                          : '#6b7280';
+                          : ds.status === 'processing' ? '#6366f1'
+                          : '#6b7280'; // uploaded
+                        const statusLabel = ds.status === 'completed' ? 'Completed'
+                          : ds.status === 'failed' ? 'Failed'
+                          : ds.status === 'processing' ? 'Analyzing…'
+                          : 'Uploaded';
                         const date = new Date(ds.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
                         return (
                           <div key={ds.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', background: 'rgba(255,255,255,0.025)', borderRadius: '10px', border: '1px solid var(--border-glass)', cursor: 'pointer', transition: 'all 0.2s' }}
@@ -723,7 +831,7 @@ function App() {
                               <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>{ds.file_type?.toUpperCase()} · {date}</p>
                             </div>
                             <span style={{ padding: '3px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '600', background: `${statusColor}20`, color: statusColor, border: `1px solid ${statusColor}40`, flexShrink: 0 }}>
-                              {ds.status}
+                              {statusLabel}
                             </span>
                           </div>
                         );
@@ -880,12 +988,16 @@ function App() {
                     <td>{ds.column_count ?? 'N/A'}</td>
                     <td>
                       <span className={`badge ${
-                        ds.status === 'analyzed' ? 'badge-success' :
                         ds.status === 'completed' ? 'badge-success' :
-                        ds.status === 'failed' ? 'badge-danger' :
-                        ds.status === 'ready' ? 'badge-warning' :
-                        'badge-info'
-                      }`}>{ds.status}</span>
+                        ds.status === 'failed'    ? 'badge-danger'  :
+                        ds.status === 'processing'? 'badge-info'    :
+                        'badge-warning'
+                      }`}>
+                        {ds.status === 'completed' ? 'Completed'
+                          : ds.status === 'failed'     ? 'Failed'
+                          : ds.status === 'processing' ? 'Analyzing…'
+                          : 'Uploaded'}
+                      </span>
                     </td>
                     <td>
                       <button
@@ -893,7 +1005,7 @@ function App() {
                         style={{ padding: '6px 12px', fontSize: '12px' }}
                         onClick={() => { setSelectedDataset(ds.id); setActiveTab('analytics'); }}
                       >
-                        {ds.status === 'analyzed' ? '📊 View' : '⚡ Analyze'}
+                        {ds.status === 'completed' ? '📊 View' : '⚡ Analyze'}
                       </button>
                     </td>
                   </tr>
@@ -925,6 +1037,17 @@ function App() {
                   ))}
                 </select>
                 <button
+                  className="btn-secondary"
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: !selectedDataset ? 0.5 : 1 }}
+                  onClick={() => setPreviewOpen(true)}
+                  disabled={!selectedDataset}
+                  id="preview-dataset-btn"
+                  title="Preview raw dataset rows"
+                >
+                  <Eye size={14} />
+                  Preview
+                </button>
+                <button
                   className="btn-primary"
                   style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: (!selectedDataset || isAnalysisRunning) ? 0.6 : 1 }}
                   onClick={handleRunAnalysis}
@@ -934,6 +1057,10 @@ function App() {
                   {isAnalysisRunning ? <span className="spinner" /> : <Play size={14} />}
                   {isAnalysisRunning ? 'Analyzing…' : 'Run Analysis'}
                 </button>
+                <ExportMenu 
+                  analysisData={analysisData} 
+                  datasetName={datasetsList.find(d => String(d.id) === String(selectedDataset))?.name || 'dataset'} 
+                />
               </div>
             </header>
 
@@ -1385,10 +1512,10 @@ function App() {
                   </div>
                 )}
 
-                {/* ⑧ INSIGHTS */}
+                {/* ⑧ AUTOMATED INSIGHTS */}
                 {Array.isArray(analysisData.insights) && analysisData.insights.length > 0 && (
                   <div className="dashboard-card">
-                    <h2 className="card-title"><span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Lightbulb size={18} style={{ color: '#fbbf24' }} />AI Insights</span></h2>
+                    <h2 className="card-title"><span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Lightbulb size={18} style={{ color: '#fbbf24' }} />Automated Insights</span></h2>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {analysisData.insights.map((insight, i) => (
                         <div key={i} className="insight-card">
@@ -1396,6 +1523,101 @@ function App() {
                           <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-primary)' }}>{typeof insight === 'string' ? insight : JSON.stringify(insight)}</p>
                         </div>
                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ⑧b AI ANALYSIS — formal report */}
+                {analysisData.ai_analysis?.summary && (
+                  <div className="dashboard-card" style={{ padding: 0, overflow: 'hidden' }}>
+
+                    {/* Report header bar */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '14px 22px',
+                      borderBottom: '1px solid var(--border-glass)',
+                      background: 'rgba(255,255,255,0.03)',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{
+                          width: '3px', height: '22px',
+                          borderRadius: '2px',
+                          background: 'linear-gradient(180deg, #6366f1, #8b5cf6)',
+                        }} />
+                        <div>
+                          <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-primary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                            AI Analysis Report
+                          </div>
+                          <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                            Generated by Gemini Analytics Engine
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{
+                        fontSize: '11px',
+                        color: 'var(--text-secondary)',
+                        fontFamily: 'monospace',
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px solid var(--border-glass)',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                      }}>
+                        {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </div>
+                    </div>
+
+                    {/* Report body */}
+                    <div style={{ padding: '22px 24px 24px' }}>
+
+                      {/* Section label */}
+                      <div style={{
+                        fontSize: '10px',
+                        fontWeight: '700',
+                        color: '#6366f1',
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        marginBottom: '14px',
+                      }}>
+                        Executive Summary
+                      </div>
+
+                      {/* Summary text rendered as formal paragraphs */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {analysisData.ai_analysis.summary
+                          .split(/\n{1,}/)
+                          .map(p => p.trim())
+                          .filter(p => p.length > 0)
+                          .map((paragraph, idx) => (
+                            <p key={idx} style={{
+                              fontSize: '14px',
+                              lineHeight: '1.85',
+                              color: 'var(--text-primary)',
+                              margin: 0,
+                              textAlign: 'justify',
+                              fontWeight: '400',
+                            }}>
+                              {paragraph}
+                            </p>
+                          ))
+                        }
+                      </div>
+
+                      {/* Footer rule */}
+                      <div style={{
+                        marginTop: '20px',
+                        paddingTop: '14px',
+                        borderTop: '1px solid var(--border-glass)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                      }}>
+                        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#6366f1', flexShrink: 0 }} />
+                        <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                          This report was automatically generated based on statistical analysis of the uploaded dataset.
+                        </span>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -1448,35 +1670,139 @@ function App() {
         {/* TAB 4: CHAT */}
         {activeTab === 'chat' && (
           <>
-            <header className="header">
+            <header className="header" style={{ marginBottom: '20px' }}>
               <div className="header-title">
                 <h1>Insight AI Chat</h1>
-                <p>Query your datasets in natural language to compile charts, anomalies, and statistics.</p>
+                <p>Query your datasets in natural language — grounded in your processed analytics context.</p>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Database size={16} style={{ color: 'var(--primary)' }} />
+                  <select
+                    className="form-input"
+                    style={{ width: '240px', padding: '8px 12px', fontSize: '13px' }}
+                    value={selectedDataset}
+                    onChange={(e) => setSelectedDataset(e.target.value)}
+                  >
+                    <option value="">Select a dataset...</option>
+                    {datasetsList.map(ds => (
+                      <option key={ds.id} value={ds.id}>
+                        {ds.name} ({ds.status})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {selectedDataset && (
+                  <button
+                    className="btn-secondary"
+                    onClick={handleClearChat}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', fontSize: '13px' }}
+                    title="Clear Chat History"
+                  >
+                    <Trash2 size={14} /> Clear History
+                  </button>
+                )}
               </div>
             </header>
 
-            <div className="dashboard-card chat-widget">
-              <div className="chat-messages">
-                {chatMessages.map((msg, index) => (
-                  <div key={index} className={`message-bubble ${msg.sender === 'user' ? 'message-user' : 'message-assistant'}`}>
-                    {msg.text}
-                  </div>
-                ))}
+            {!selectedDataset ? (
+              <div className="dashboard-card" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                <MessageSquare size={48} style={{ color: 'var(--primary)', opacity: 0.5, marginBottom: '16px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>No Dataset Selected</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '14px', maxWidth: '450px', margin: '0 auto 20px' }}>
+                  Please select a dataset from the header dropdown above to load its context and start chatting with AI.
+                </p>
               </div>
+            ) : (
+              <div className="dashboard-card chat-widget" style={{ display: 'flex', flexDirection: 'column', height: '650px' }}>
+                {/* Preset Suggestions */}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px', borderBottom: '1px solid var(--border-glass)', paddingBottom: '12px' }}>
+                  {[
+                    "Summarize key findings",
+                    "What are the main trends?",
+                    "Are there any anomalies?",
+                    "What recommendations do you have?"
+                  ].map((preset, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleSendMessage(null, preset)}
+                      disabled={isChatSending}
+                      style={{
+                        background: 'rgba(139, 92, 246, 0.08)',
+                        border: '1px solid rgba(139, 92, 246, 0.2)',
+                        borderRadius: '16px',
+                        padding: '6px 14px',
+                        fontSize: '12px',
+                        color: 'var(--text-primary)',
+                        cursor: isChatSending ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 92, 246, 0.18)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 92, 246, 0.08)'}
+                    >
+                      ✨ {preset}
+                    </button>
+                  ))}
+                </div>
 
-              <form onSubmit={handleSendMessage} className="chat-input-row">
-                <input 
-                  type="text" 
-                  className="chat-input"
-                  placeholder="Ask me to find anomalies, profile a dataset, or forecast values..."
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                />
-                <button type="submit" className="btn-primary">Send</button>
-              </form>
-            </div>
+                {/* Message List */}
+                <div className="chat-messages" style={{ flex: 1, overflowY: 'auto', paddingRight: '8px' }}>
+                  {isChatLoadingHistory && (
+                    <div style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '10px' }}>
+                      <span className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', marginRight: '8px' }} />
+                      Loading chat history...
+                    </div>
+                  )}
+
+                  {chatMessages.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`message-bubble ${msg.sender === 'user' ? 'message-user' : 'message-assistant'}`}
+                      style={{
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                        lineHeight: '1.6'
+                      }}
+                    >
+                      {msg.text}
+                    </div>
+                  ))}
+
+                  {isChatSending && (
+                    <div className="message-bubble message-assistant" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span className="spinner" style={{ width: '14px', height: '14px', borderWidth: '2px' }} />
+                      <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>AI is analyzing dataset and building answer...</span>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                {/* Input Form */}
+                <form onSubmit={handleSendMessage} className="chat-input-row" style={{ marginTop: '16px' }}>
+                  <input 
+                    type="text" 
+                    className="chat-input"
+                    placeholder="Ask a question grounded in this dataset..."
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    disabled={isChatSending}
+                  />
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={isChatSending || !chatInput.trim()}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', opacity: (isChatSending || !chatInput.trim()) ? 0.6 : 1 }}
+                  >
+                    <Send size={15} /> Send
+                  </button>
+                </form>
+              </div>
+            )}
           </>
         )}
+
 
         {/* TAB 5: SETTINGS */}
         {activeTab === 'settings' && (
@@ -1495,7 +1821,7 @@ function App() {
                   type="text" 
                   className="chat-input"
                   style={{ width: '100%', maxWidth: '500px' }}
-                  defaultValue="http://localhost:5000/api" 
+                  defaultValue="https://automatedinsightgenerator.onrender.com/api" 
                   readOnly
                 />
               </div>
@@ -1526,6 +1852,14 @@ function App() {
           </>
         )}
       </main>
+
+      {/* Dataset Preview Modal */}
+      {previewOpen && selectedDataset && (
+        <DatasetPreviewModal
+          datasetId={selectedDataset}
+          onClose={() => setPreviewOpen(false)}
+        />
+      )}
     </div>
   );
 }

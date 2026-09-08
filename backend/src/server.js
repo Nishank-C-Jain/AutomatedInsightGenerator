@@ -1,5 +1,7 @@
 import app from './app.js';
 import pool from './config/db.js';
+import dotenv from "dotenv";
+dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
@@ -9,9 +11,9 @@ async function startServer() {
     // Perform a quick query to test connection
     const result = await pool.query('SELECT NOW()');
     console.log(`Database connected successfully at: ${result.rows[0].now}`);
-    
+
     // Start listening
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
     });
 
@@ -46,5 +48,6 @@ async function startServer() {
     process.exit(1);
   }
 }
+
 
 startServer();

@@ -45,3 +45,40 @@ export const uploadDataset = async (file) => {
     });
     return response.data;
 };
+
+/**
+ * Dataset-specific AI Chat services
+ */
+export const sendChatMessage = async (datasetId, question, sessionId = null) => {
+    const response = await apiClient.post(`/chat/${datasetId}`, {
+        question,
+        session_id: sessionId || undefined,
+    });
+    return response.data;
+};
+
+export const fetchChatSessions = async (datasetId) => {
+    const response = await apiClient.get(`/chat/${datasetId}/sessions`);
+    return response.data;
+};
+
+export const fetchChatHistory = async (datasetId, sessionId = null) => {
+    const params = sessionId ? { session_id: sessionId } : {};
+    const response = await apiClient.get(`/chat/${datasetId}/history`, { params });
+    return response.data;
+};
+
+export const clearChatHistory = async (datasetId, sessionId = null) => {
+    const params = sessionId ? { session_id: sessionId } : {};
+    const response = await apiClient.delete(`/chat/${datasetId}/history`, { params });
+    return response.data;
+};
+
+/**
+ * Fetch a preview of the raw dataset rows + column metadata.
+ * Returns { success, total_rows, total_cols, columns, rows, dataset_name }
+ */
+export const fetchDatasetPreview = async (datasetId, limit = 50) => {
+    const response = await apiClient.get(`/datasets/${datasetId}/preview`, { params: { limit } });
+    return response.data;
+};

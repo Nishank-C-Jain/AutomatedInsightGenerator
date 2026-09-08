@@ -20,7 +20,7 @@ def get_pool() -> pg_pool.SimpleConnectionPool:
             host=os.getenv("DB_HOST", "localhost"),
             port=int(os.getenv("DB_PORT", "5432")),
             dbname=os.getenv("DB_NAME", "automated_insights"),
-            user=os.getenv("DB_USER", "postgres"),
+            user=os.getenv("DB_USER", "aig_app"),
             password=os.getenv("DB_PASSWORD", ""),
         )
     return _pool

@@ -4,7 +4,7 @@ class InsightSynthesizer:
     def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def generate_insights(self, profile: dict, stats: dict, anomalies: dict = None) -> list:
+    def generate_insights(self, profile: dict, stats: dict, anomalies: dict = None, correlations: dict = None, trends: dict = None) -> list:
         """Synthesize statistical and structural results into text-based insights."""
         insights = []
 

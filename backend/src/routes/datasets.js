@@ -27,4 +27,11 @@ router.get(
   datasetController.getDatasetById
 );
 
+// Get dataset row preview + column metadata (protected route)
+router.get(
+  '/:id/preview',
+  authMiddleware,
+  datasetController.getDatasetPreview
+);
+
 export default router;

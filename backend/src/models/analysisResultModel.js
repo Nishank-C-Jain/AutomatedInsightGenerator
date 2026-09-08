@@ -12,7 +12,7 @@ import pool from '../config/db.js';
  * DB column layout (datasets table):
  *   id               UUID  PK
  *   user_id          UUID  FK → users
- *   status           VARCHAR(30)   'uploaded' | 'processing' | 'analyzed' | 'failed'
+ *   status           VARCHAR(30)   'uploaded' | 'processing' | 'completed' | 'failed'
  *   analysis_results JSONB         { data_quality, statistics, correlations,
  *                                    kpis, trends, forecasting, anomalies,
  *                                    insights, recommendations }
@@ -28,7 +28,7 @@ class AnalysisResultModel {
 
   /**
    * Persist a full analysis result to the datasets row.
-   * Also updates row_count, column_count, and flips status to 'analyzed'.
+   * Also updates row_count, column_count, and flips status to 'completed'.
    *
    * @param {string} datasetId
    * @param {object} analysis     - Combined result from analyze_dataset()
@@ -43,7 +43,7 @@ class AnalysisResultModel {
          analysis_results = $1::jsonb,
          row_count        = COALESCE($2, row_count),
          column_count     = COALESCE($3, column_count),
-         status           = 'analyzed',
+         status           = 'completed',
          updated_at       = NOW()
        WHERE id = $4::uuid
        RETURNING id, status, row_count, column_count, analysis_results, updated_at`,
@@ -200,7 +200,7 @@ class AnalysisResultModel {
       `SELECT 1 FROM datasets
        WHERE id = $1::uuid
          AND analysis_results IS NOT NULL
-         AND status = 'analyzed'`,
+         AND status = 'completed'`,
       [datasetId]
     );
     return result.rows.length > 0;

@@ -16,7 +16,18 @@ class Forecaster:
 
         # Copy, convert dates, and sort
         temp_df = self.df[[date_col, value_col]].copy()
-        temp_df[date_col] = pd.to_datetime(temp_df[date_col])
+        temp_df[date_col] = pd.to_datetime(
+            temp_df[date_col],
+            errors="coerce"
+        )
+
+        temp_df = temp_df.dropna(subset=[date_col])
+
+        if temp_df.empty:
+            return {
+                "status": "skipped",
+                "reason": f"No valid dates found in '{date_col}'"
+            }
         temp_df = temp_df.sort_values(by=date_col).dropna()
 
         if len(temp_df) < 3:

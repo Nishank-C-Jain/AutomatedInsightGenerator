@@ -1,5 +1,8 @@
 import pool from '../config/db.js';
+import axios from 'axios';
+import path from 'path';
 import datasetServices from '../services/datasetServices.js';
+import { env } from '../config/env.js';
 
 const uploadDataset = async (req, res) => {
     try {
@@ -28,7 +31,7 @@ const uploadDataset = async (req, res) => {
             fileType: extension,
             fileSize: size,
             storagePath: path,
-            status: 'processing'
+            status: 'uploaded'
         });
 
         // 2. Trigger asynchronous processing
@@ -141,8 +144,51 @@ const getDatasetById = async (req, res) => {
     }
 };
 
+/**
+ * GET /api/datasets/:id/preview
+ * Proxy to Python preview endpoint — returns first N rows + column metadata.
+ */
+const getDatasetPreview = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const datasetId = req.params.id;
+        const limit = Math.min(parseInt(req.query.limit) || 50, 100);
+
+        // Fetch storage_path from DB
+        const result = await pool.query(
+            `SELECT storage_path, name FROM datasets WHERE id = $1 AND user_id = $2`,
+            [datasetId, userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Dataset not found' });
+        }
+
+        const { storage_path, name } = result.rows[0];
+        const absPath = path.resolve(storage_path);
+        const pythonUrl = env.PYTHON_API_URL || 'http://127.0.0.1:8000';
+
+        const pythonRes = await axios.get(`${pythonUrl}/api/preview`, {
+            params: { file_path: absPath, limit },
+            timeout: 30_000,
+        });
+
+        return res.status(200).json({
+            ...pythonRes.data,
+            dataset_name: name,
+            dataset_id: datasetId,
+        });
+
+    } catch (error) {
+        console.error('[datasetController] getDatasetPreview error:', error.message);
+        const msg = error.response?.data?.detail || error.message || 'Preview failed';
+        return res.status(error.response?.status || 500).json({ success: false, message: msg });
+    }
+};
+
 export default {
     uploadDataset,
     getDatasets,
     getDatasetById,
+    getDatasetPreview,
 };
