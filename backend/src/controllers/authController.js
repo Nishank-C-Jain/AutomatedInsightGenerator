@@ -44,10 +44,10 @@ class AuthController {
       // Set raw refresh token in HttpOnly cookie
       res.cookie('refreshToken', rawRefreshToken, {
         httpOnly: true,
-        secure: env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: true,
+        sameSite: 'none',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-        path: '/' // Make accessible across whole API
+        path: '/'
       });
 
       res.status(200).json({
@@ -80,8 +80,8 @@ class AuthController {
       // Set new refresh token in cookie (rotation)
       res.cookie('refreshToken', newRefreshToken, {
         httpOnly: true,
-        secure: env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: true,
+        sameSite: 'none',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
         path: '/'
       });
@@ -109,8 +109,8 @@ class AuthController {
       // Clear refresh token cookie
       res.clearCookie('refreshToken', {
         httpOnly: true,
-        secure: env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: true,
+        sameSite: 'none',
         path: '/'
       });
 
