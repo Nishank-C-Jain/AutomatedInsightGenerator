@@ -10,6 +10,9 @@ import pool from './config/db.js';
 
 const app = express();
 
+// Required when deployed behind Render's reverse proxy
+app.set("trust proxy", 1);
+
 // Security headers
 app.use(helmet());
 
