@@ -22,7 +22,7 @@ class AuthController {
     try {
       const parsedBody = registerSchema.parse(req.body);
       const newUser = await authService.register(parsedBody);
-      
+
       res.status(201).json({
         success: true,
         message: 'User registered successfully',
@@ -42,12 +42,14 @@ class AuthController {
       const { user, accessToken, rawRefreshToken } = await authService.login(parsedBody);
 
       // Set raw refresh token in HttpOnly cookie
-      res.cookie('refreshToken', rawRefreshToken, {
+      const isProduction = process.env.NODE_ENV === "production";
+
+      res.cookie("refreshToken", rawRefreshToken, {
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-        path: '/'
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.status(200).json({
@@ -67,7 +69,7 @@ class AuthController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      
+
       if (!refreshToken) {
         return res.status(401).json({
           success: false,
@@ -101,7 +103,7 @@ class AuthController {
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      
+
       if (refreshToken) {
         await authService.logout(refreshToken);
       }
@@ -130,7 +132,7 @@ class AuthController {
     try {
       const userId = req.user.id;
       const userProfile = await authService.getUserProfile(userId);
-      
+
       res.status(200).json({
         success: true,
         user: userProfile
