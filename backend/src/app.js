@@ -53,6 +53,14 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api', apiRouter);
 
 // Healthcheck Route
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Backend is running',
+    environment: process.env.NODE_ENV
+  });
+});
+
 app.get('/', (req, res) => {
   res.json({
     success: true,
