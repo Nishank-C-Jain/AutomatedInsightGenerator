@@ -110,5 +110,5 @@ __pycache__/
 backend/uploads/
 scratch/
 analytics-service/scratch/
-
+vercel.json
 analytics-service/scratch.zip
