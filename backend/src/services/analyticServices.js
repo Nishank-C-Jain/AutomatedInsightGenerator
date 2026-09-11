@@ -50,15 +50,24 @@ class AnalyticServices {
     let analysis;
     try {
       const pythonUrl = env.PYTHON_API_URL || 'http://127.0.0.1:8000';
+      const absPath = path.resolve(dataset.storage_path);
+      
+      const fs = await import('fs');
+      const FormData = (await import('form-data')).default;
+      
+      const form = new FormData();
+      form.append('file', fs.createReadStream(absPath));
+      form.append('dataset_id', datasetId);
 
       const response = await axios.post(
-        `${pythonUrl}/api/analysis/path`,
-        {
-          // Resolve to absolute path — Python needs a full filesystem path
-          file_path: path.resolve(dataset.storage_path),
-          dataset_id: datasetId,
-        },
-        { timeout: 120_000 }
+        `${pythonUrl}/api/analysis`,
+        form,
+        { 
+          headers: {
+            ...form.getHeaders()
+          },
+          timeout: 120_000 
+        }
       );
 
       // Response envelope from Python:
